@@ -1,0 +1,32 @@
+{
+  "features": [
+    {
+      "id": "kontur_mock_1",
+      "properties": {
+        "title": "Severe Storm Warning",
+        "description": "Storm forming near Springfield",
+        "severity": "high",
+        "category": "storm",
+        "updated": "2025-09-28T01:00:00.000Z"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.65, 39.78]
+      }
+    },
+    {
+      "id": "kontur_mock_2",
+      "properties": {
+        "title": "Flood Watch Bloomington",
+        "description": "River levels rising",
+        "severity": "moderate",
+        "category": "flood",
+        "updated": "2025-09-28T01:30:00.000Z"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-88.99, 40.48]
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "predictions": [
+    {
+      "id": "pred_1",
+      "label": "Chicago Loop",
+      "expected_claims": 42,
+      "adjusters_needed": 6,
+      "generated_at": "2025-09-28T02:00:00.000Z"
+    },
+    {
+      "id": "pred_2",
+      "label": "Springfield",
+      "expected_claims": 18,
+      "adjusters_needed": 3,
+      "generated_at": "2025-09-28T01:45:00.000Z"
+    }
+  ]
+}

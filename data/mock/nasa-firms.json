@@ -1,0 +1,22 @@
+{
+  "fires": [
+    {
+      "id": "nasa_mock_1",
+      "brightness": 350.2,
+      "latitude": 34.12,
+      "longitude": -118.21,
+      "acq_date": "2025-09-28",
+      "acq_time": "0205",
+      "confidence": "high"
+    },
+    {
+      "id": "nasa_mock_2",
+      "brightness": 295.8,
+      "latitude": 32.77,
+      "longitude": -96.79,
+      "acq_date": "2025-09-28",
+      "acq_time": "0210",
+      "confidence": "nominal"
+    }
+  ]
+}
