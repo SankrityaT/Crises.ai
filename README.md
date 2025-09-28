@@ -49,6 +49,7 @@ NASA_FIRMS_API_KEY=
 KONTUR_API_KEY=
 TWITTER_BEARER_TOKEN=
 OPENAI_API_KEY=
+GEMINI_API_KEY=
 NEXT_PUBLIC_WS_URL=
 USE_MOCK_DATA=true
 ```
@@ -66,3 +67,4 @@ Rebase from `main` before opening PRs, keep shared types inside `src/types/`, an
 - Bootstrap Supabase/PostGIS schema and Drizzle migrations under `db/migrations/`.
 - Flesh out ingestion pipelines in `backend/ingestion/` with persistence + Socket.IO push.
 - Scaffold AI microservice within `services/ai/` (FastAPI) and connect predictive UI panels.
+  - Update: AI insights now proxied through Next.js routes that call Gemini 1.5 Pro; ensure `GEMINI_API_KEY` is set.
