@@ -2,8 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import { useMapStore } from "@/store/map-store";
-import type { DisasterEventContext } from "@/types/ai";
-import type { SocialMentionPayload } from "@/types/ai";
+import type {
+  ClaimForecastInsight,
+  ClaimForecastResponse,
+  DisasterEventContext,
+  SocialMentionPayload,
+} from "@/types/ai";
 
 export function useAIIntegration() {
   const { 
@@ -59,11 +63,11 @@ export function useAIIntegration() {
           });
 
           if (predictResponse.ok) {
-            const predictData = await predictResponse.json();
+            const predictData = (await predictResponse.json()) as ClaimForecastResponse;
             console.log("[AI] Received claim predictions:", predictData);
             
             // Convert AI response to PredictionSummary format
-            const predictions = predictData.insights?.map((insight: any, index: number) => {
+            const predictions = predictData.insights?.map((insight: ClaimForecastInsight, index: number) => {
               // Parse expected claims more robustly
               let expectedClaims = 0;
               if (insight.expectedClaimsRange) {
@@ -81,7 +85,7 @@ export function useAIIntegration() {
               let adjustersNeeded = 0;
               if (insight.adjusterRecommendation) {
                 const adjMatch = insight.adjusterRecommendation.toString().match(/(\d+)/);
-                adjustersNeeded = adjMatch ? parseInt(adjMatch[1]) : Math.ceil(expectedClaims / 1000);
+                adjustersNeeded = adjMatch ? parseInt(adjMatch[1], 10) : Math.ceil(expectedClaims / 1000);
               }
               
               // Create more descriptive labels

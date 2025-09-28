@@ -4,12 +4,13 @@ import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import { useMapStore } from "@/store/map-store";
 import { getSeverityColor, getTimeAgo } from "@/lib/utils";
+import type { EventFeature } from "@/types/map";
 import L from "leaflet";
 
 // Custom icon factory for different event types
-function createEventIcon(event: any, color: string) {
+function createEventIcon(event: EventFeature, color: string) {
   const size = event.severity === 'critical' ? 16 : event.severity === 'high' ? 14 : 12;
-  const iconHtml = getEventIconSVG(event.type, color, size);
+  const iconHtml = getEventIconSVG(event, color, size);
   
   return L.divIcon({
     html: iconHtml,
@@ -20,10 +21,12 @@ function createEventIcon(event: any, color: string) {
   });
 }
 
-function getEventIconSVG(eventType: string, color: string, size: number) {
-  const type = eventType.toLowerCase();
+function getEventIconSVG(event: EventFeature, color: string, size: number) {
+  const type = event.type?.toLowerCase() ?? '';
+  const source = event.source?.toLowerCase() ?? '';
+  const isEarthquake = source === 'usgs' || type.includes('earthquake');
   
-  if (type.includes('earthquake')) {
+  if (isEarthquake) {
     return `
       <div class="relative">
         <svg width="${size * 2}" height="${size * 2}" viewBox="0 0 24 24" fill="none" class="drop-shadow-lg">
@@ -98,6 +101,9 @@ export function EventLayer() {
     events.forEach((event) => {
       const color = getSeverityColor(event.severity);
       const icon = createEventIcon(event, color);
+      const riskScoreValue = Number(event.metadata?.riskScore);
+      const hasRiskScore = Number.isFinite(riskScoreValue) && riskScoreValue > 0;
+      const riskScoreLabel = hasRiskScore ? `${Math.round(riskScoreValue)}%` : null;
       
       const marker = L.marker([event.coordinates.lat, event.coordinates.lng], {
         icon: icon
@@ -132,10 +138,10 @@ export function EventLayer() {
               <span class="text-gray-600">Time:</span>
               <span class="font-medium text-gray-900">${getTimeAgo(event.startedAt)}</span>
             </div>
-            ${event.metadata?.riskScore ? `
+            ${riskScoreLabel ? `
               <div class="flex justify-between pt-2 border-t border-gray-200">
                 <span class="text-gray-600">Risk Score:</span>
-                <span class="font-medium text-gray-900">${Math.round(Number(event.metadata.riskScore) * 100)}%</span>
+                <span class="font-medium text-gray-900">${riskScoreLabel}</span>
               </div>
             ` : ''}
           </div>

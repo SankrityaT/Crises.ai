@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 
-import type { ClaimForecastResponse, DisasterEventContext } from "@/types/ai";
+import type {
+  ClaimForecastInsight,
+  ClaimForecastResponse,
+  DisasterEventContext,
+} from "@/types/ai";
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 const GEMINI_API_BASE =
@@ -43,6 +47,53 @@ SYSTEM DIRECTIVES:
 
 EVENT CONTEXTS:
 ${JSON.stringify(events, null, 2)}`;
+}
+
+function formatClaimValue(value: number): string {
+  if (value >= 1000) {
+    return `${Math.round(value / 100) / 10}M`;
+  }
+  return `${Math.round(value)}k`;
+}
+
+function buildFallbackInsights(events: DisasterEventContext[]): ClaimForecastInsight[] {
+  return events.map((event, index) => {
+    const severity = Math.max(1, Math.min(4, Number.isFinite(event.severity) ? event.severity : 2));
+    const magnitude = Number.isFinite(event.magnitude) ? (event.magnitude ?? 0) : 0;
+    const density = Number.isFinite(event.customerDensity) ? event.customerDensity : 0;
+
+    const baseScore = severity * 8 + magnitude * 4 + density * 0.4;
+    const lowerBound = Math.max(15, baseScore * 0.6);
+    const upperBound = Math.max(lowerBound + 10, baseScore * 0.95);
+
+    const expectedClaimsRange = `${formatClaimValue(lowerBound)}-${formatClaimValue(upperBound)}`;
+    const adjustersNeeded = Math.max(1, Math.round(severity * 1.5));
+    const coordinateSummary = `${event.location.lat.toFixed(2)}, ${event.location.lng.toFixed(2)}`;
+
+    const summary = `Severity index ${severity} ${event.hazardType} requiring monitoring near ${coordinateSummary}.`;
+    const adjusterRecommendation = `Deploy ${adjustersNeeded} adjusters within 12 hours.`;
+    const riskDrivers = [
+      `Severity index ${severity}`,
+      `Magnitude ${magnitude.toFixed(1)}`,
+      `Exposure score ${Math.round(density)}`,
+    ];
+
+    return {
+      eventId: event.eventId ?? `event_${index + 1}`,
+      summary,
+      expectedClaimsRange,
+      adjusterRecommendation,
+      riskDrivers,
+    } satisfies ClaimForecastInsight;
+  });
+}
+
+function buildFallbackResponse(events: DisasterEventContext[]): ClaimForecastResponse {
+  return {
+    generatedAt: new Date().toISOString(),
+    model: "crises-fallback-heuristic",
+    insights: buildFallbackInsights(events),
+  } satisfies ClaimForecastResponse;
 }
 
 async function callGemini(prompt: string): Promise<ClaimForecastResponse> {
@@ -108,10 +159,24 @@ export async function POST(request: Request) {
 
   try {
     const prompt = buildPrompt(body.events);
-    const summary = await callGemini(prompt);
-    return NextResponse.json(summary, { status: 200 });
+    const apiKeyPresent = Boolean(process.env.GEMINI_API_KEY);
+
+    if (!apiKeyPresent) {
+      const fallback = buildFallbackResponse(body.events);
+      return NextResponse.json(fallback, { status: 200 });
+    }
+
+    try {
+      const summary = await callGemini(prompt);
+      return NextResponse.json(summary, { status: 200 });
+    } catch (error) {
+      console.error("[API][AI] Gemini call failed, using fallback", error);
+      const fallback = buildFallbackResponse(body.events);
+      return NextResponse.json(fallback, { status: 200 });
+    }
   } catch (error) {
     console.error("[API][AI] Gemini claim forecast failure", error);
-    return NextResponse.json({ error: "Gemini service unavailable" }, { status: 502 });
+    const fallback = buildFallbackResponse(body.events);
+    return NextResponse.json(fallback, { status: 200 });
   }
 }

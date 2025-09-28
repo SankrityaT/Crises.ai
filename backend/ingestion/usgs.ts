@@ -11,6 +11,8 @@ import { updateEventsCache } from "../services/stateCache";
 
 const DEFAULT_ENDPOINT =
   "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
+const DEFAULT_FALLBACK_ENDPOINT =
+  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 
 interface UsgsFeature {
   id: string;
@@ -63,11 +65,21 @@ export function normalizeFeature(feature: UsgsFeature): NormalizedEvent | null {
   const occurredAt = feature.properties?.time
     ? new Date(feature.properties.time).toISOString()
     : new Date().toISOString();
+  const place = feature.properties?.place ?? "Unknown location";
+
+  const magnitudeLabel =
+    magnitude != null && !Number.isNaN(magnitude)
+      ? `M ${magnitude.toFixed(1)}`
+      : "Earthquake";
+  const rawTitle = feature.properties?.title;
+  const title = rawTitle && rawTitle.toLowerCase().includes("earthquake")
+    ? rawTitle
+    : `${magnitudeLabel} Earthquake - ${place}`;
 
   return {
     id: feature.id,
-    title: feature.properties?.title ?? feature.properties?.place ?? "USGS Event",
-    description: feature.properties?.place,
+    title,
+    description: "Earthquake",
     source: "usgs",
     coordinates: {
       latitude,
@@ -90,11 +102,47 @@ async function fetchFeed(): Promise<UsgsResponse> {
     return loadMockFeed();
   }
 
-  const response = await axios.get<UsgsResponse>(endpoint, {
-    timeout: Number(process.env.USGS_TIMEOUT_MS ?? 10_000),
-  });
+  const timeout = Number(process.env.USGS_TIMEOUT_MS ?? 10_000);
+  const fallbackEndpoint =
+    process.env.USGS_FALLBACK_API_URL ?? DEFAULT_FALLBACK_ENDPOINT;
 
-  return response.data ?? {};
+  try {
+    const response = await axios.get<UsgsResponse>(endpoint, {
+      timeout,
+    });
+
+    const features = response.data?.features ?? [];
+    if (features.length) {
+      return response.data ?? {};
+    }
+
+    console.warn(
+      `[Ingestion][USGS] Primary feed (${endpoint}) returned no features. Falling back to ${fallbackEndpoint}.`
+    );
+  } catch (error) {
+    console.warn(
+      `[Ingestion][USGS] Primary feed (${endpoint}) failed. Falling back to ${fallbackEndpoint}.`,
+      error
+    );
+  }
+
+  if (!fallbackEndpoint || fallbackEndpoint === endpoint) {
+    return {};
+  }
+
+  try {
+    const response = await axios.get<UsgsResponse>(fallbackEndpoint, {
+      timeout,
+    });
+
+    return response.data ?? {};
+  } catch (fallbackError) {
+    console.error(
+      `[Ingestion][USGS] Fallback feed (${fallbackEndpoint}) failed.`,
+      fallbackError
+    );
+    return {};
+  }
 }
 
 export async function ingestUSGS(): Promise<void> {
