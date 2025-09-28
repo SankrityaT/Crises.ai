@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CrisisLens – Real-Time Emergency Intelligence Map
+
+CrisisLens fuses disaster telemetry, 911 signals, and social sentiment to give State Farm real-time situational awareness.
+
+## Repository Layout
+
+```
+src/
+  app/
+    (dashboard)/
+      map/              # Frontend map surface (Engineer A)
+    layout.tsx
+  components/
+    map/                # React-Leaflet layers & UI widgets
+    ui/
+  hooks/
+  lib/
+  store/
+  types/
+backend/
+  ingestion/           # Pollers for USGS, Kontur, NASA, RapidSOS, Social
+  scheduler/           # Cron runner entrypoint (Node + TS)
+  services/
+  sockets/
+services/
+  ai/                  # FastAPI ML microservice (Engineer C)
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev            # Next.js frontend + API routes
+pnpm backend:dev    # Node scheduler (requires env + DB)
+pnpm test           # Vitest unit tests
+pnpm lint           # ESLint via next lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create an `.env.local` with the following keys (full list in `.env.example`):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+DATABASE_URL=
+SUPABASE_PROJECT_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+RAPIDSOS_API_KEY=
+NERIS_API_KEY=
+NASA_FIRMS_API_KEY=
+KONTUR_API_KEY=
+TWITTER_BEARER_TOKEN=
+OPENAI_API_KEY=
+NEXT_PUBLIC_WS_URL=
+USE_MOCK_DATA=true
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Workflow & Branch Strategy
 
-## Learn More
+- **Engineer A**: `feature/frontend-map`
+- **Engineer B**: `feature/backend-pipeline`
+- **Engineer C**: `feature/ai-alerts`
 
-To learn more about Next.js, take a look at the following resources:
+Rebase from `main` before opening PRs, keep shared types inside `src/types/`, and coordinate schema changes via quick reviews to avoid conflicts.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Immediate TODOs
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Bootstrap Supabase/PostGIS schema and Drizzle migrations under `db/migrations/`.
+- Flesh out ingestion pipelines in `backend/ingestion/` with persistence + Socket.IO push.
+- Scaffold AI microservice within `services/ai/` (FastAPI) and connect predictive UI panels.
