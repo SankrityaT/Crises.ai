@@ -1,6 +1,6 @@
-# CrisisLens – Real-Time Emergency Intelligence Map
+# Crises.ai – Real-Time Emergency Intelligence Map
 
-CrisisLens fuses disaster telemetry, 911 signals, and social sentiment to give State Farm real-time situational awareness.
+Crises.ai fuses disaster telemetry, 911 signals, and social sentiment to give State Farm real-time situational awareness.
 
 ## Repository Layout
 

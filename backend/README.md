@@ -1,6 +1,6 @@
 # Backend Pipeline (Engineer B)
 
-This package hosts the data ingestion jobs, schedulers, and real-time delivery layers that power CrisisLens.
+This package hosts the data ingestion jobs, schedulers, and real-time delivery layers that power Crises.ai.
 
 ```
 backend/

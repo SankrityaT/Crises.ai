@@ -1,0 +1,46 @@
+[
+  {
+    "id": "region-001",
+    "coordinates": [
+      {"lat": 37.9, "lng": -122.5},
+      {"lat": 37.9, "lng": -122.0},
+      {"lat": 37.6, "lng": -122.0},
+      {"lat": 37.6, "lng": -122.5}
+    ],
+    "customerCount": 125000,
+    "riskProfile": "high"
+  },
+  {
+    "id": "region-002", 
+    "coordinates": [
+      {"lat": 34.2, "lng": -118.5},
+      {"lat": 34.2, "lng": -118.0},
+      {"lat": 33.9, "lng": -118.0},
+      {"lat": 33.9, "lng": -118.5}
+    ],
+    "customerCount": 89000,
+    "riskProfile": "medium"
+  },
+  {
+    "id": "region-003",
+    "coordinates": [
+      {"lat": 38.9, "lng": -123.0},
+      {"lat": 38.9, "lng": -122.5},
+      {"lat": 38.0, "lng": -122.5},
+      {"lat": 38.0, "lng": -123.0}
+    ],
+    "customerCount": 45000,
+    "riskProfile": "high"
+  },
+  {
+    "id": "region-004",
+    "coordinates": [
+      {"lat": 33.9, "lng": -118.0},
+      {"lat": 33.9, "lng": -117.5},
+      {"lat": 33.5, "lng": -117.5},
+      {"lat": 33.5, "lng": -118.0}
+    ],
+    "customerCount": 67000,
+    "riskProfile": "medium"
+  }
+]

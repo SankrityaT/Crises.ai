@@ -3,7 +3,7 @@ import cron from "node-cron";
 import { ingestUSGS } from "../ingestion/usgs";
 
 async function runBootSequence() {
-  console.log("[Scheduler] CrisisLens ingestion scheduler booting…");
+  console.log("[Scheduler] Crises.ai ingestion scheduler booting…");
 
   cron.schedule("*/5 * * * *", async () => {
     console.log("[Scheduler] Running USGS ingestion cycle");
