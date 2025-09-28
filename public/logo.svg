@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="200" rx="20" fill="#DD1F26"/>
+  
+  <!-- Main Elements -->
+  <g transform="translate(50, 50) scale(1.0)">
+    <!-- Magnifying Glass (Lens) -->
+    <circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="10"/>
+    <path d="M80 80 L110 110" stroke="white" stroke-width="10" stroke-linecap="round"/>
+    
+    <!-- Emergency Symbol -->
+    <path d="M50 25 L70 65 L30 65 Z" fill="white"/>
+    <text x="50" y="55" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-weight="bold" font-size="24" fill="#DD1F26">!</text>
+  </g>
+</svg>

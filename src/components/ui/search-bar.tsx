@@ -57,6 +57,8 @@ export function SearchBar({ onSearch, onSuggestionSelect, placeholder = "Search 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+  
+  // No longer need scroll/resize handlers with simpler positioning
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,7 +143,14 @@ export function SearchBar({ onSearch, onSuggestionSelect, placeholder = "Search 
 
       {/* Suggestions Dropdown */}
       {showSuggestions && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+        <div className="absolute left-0 right-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto" 
+          style={{ 
+            position: 'absolute',
+            top: '100%',
+            zIndex: 9999,
+            width: '100%',
+            filter: 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.5))'
+          }}>
           {isLoading ? (
             <div className="px-4 py-3 text-sm text-gray-400 flex items-center gap-2">
               <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>

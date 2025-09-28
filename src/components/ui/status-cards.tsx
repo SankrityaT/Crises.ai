@@ -42,7 +42,7 @@ export function StatusCards() {
     return (
       <div className="space-y-4">
         {[1, 2, 3].map((i) => (
-          <Card key={i} className="animate-pulse bg-gray-900 border-gray-700">
+          <Card key={i} className="animate-pulse bg-gray-800/90 backdrop-blur-sm border-gray-600">
             <CardHeader className="pb-4">
               <div className="h-6 bg-gray-700 rounded w-3/4"></div>
             </CardHeader>
@@ -62,26 +62,28 @@ export function StatusCards() {
   return (
     <div className="space-y-4">
       {/* Disaster Pulse */}
-      <Card className="bg-gray-900 border-gray-700 overflow-hidden">
-        <div className="p-6">
-          <div className="flex items-start gap-4 mb-8">
+      <div className="bg-gray-700/80 backdrop-blur-sm rounded-xl border border-gray-500 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out overflow-hidden">
+        <div className="p-4">
+          <div className="flex items-start gap-4 mb-6">
             <div className="w-12 h-12 bg-red-600 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
               <div className="w-6 h-6 border-2 border-white rounded-full animate-pulse"></div>
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-2xl font-bold text-white leading-tight mb-1">Disaster Pulse</h3>
-              <p className="text-red-200 text-sm font-medium leading-tight">Real-time<br />emergency<br />monitoring</p>
+              <p className="text-red-200 text-sm font-medium leading-normal">
+                Real-time emergency monitoring
+              </p>
             </div>
             <div className="flex flex-col items-center gap-1 flex-shrink-0">
               <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-gray-400 font-medium">LIVE</span>
+              <span className="text-xs text-gray-300 font-medium">LIVE</span>
             </div>
           </div>
           
           <div className="space-y-4">
-            <div className="bg-gray-800/50 rounded-xl p-5 border border-gray-700">
+            <div className="bg-gray-700/90 backdrop-blur-sm rounded-xl p-5 border border-gray-500 shadow-md">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-gray-300 font-medium text-base">Active Events</span>
+                <span className="text-gray-200 font-medium text-base">Active Events</span>
                 <span className="text-4xl font-bold text-white tabular-nums">{totalEvents}</span>
               </div>
               {criticalEvents > 0 && (
@@ -94,45 +96,47 @@ export function StatusCards() {
             </div>
             
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gray-800/50 rounded-xl p-5 border border-gray-700 hover:bg-gray-800/70 transition-colors">
+              <div className="bg-gray-700/90 backdrop-blur-sm rounded-xl p-5 border border-gray-500 shadow-md hover:bg-gray-600/90 transition-colors">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-3 h-3 bg-orange-400 rounded-full flex-shrink-0"></div>
-                  <span className="text-gray-300 text-sm font-medium">911 Calls</span>
+                  <span className="text-gray-200 text-sm font-medium">911 Calls</span>
                 </div>
                 <div className="text-orange-400 text-3xl font-bold tabular-nums">{totalCalls}</div>
               </div>
               
-              <div className="bg-gray-800/50 rounded-xl p-5 border border-gray-700 hover:bg-gray-800/70 transition-colors">
+              <div className="bg-gray-700/90 backdrop-blur-sm rounded-xl p-5 border border-gray-500 shadow-md hover:bg-gray-600/90 transition-colors">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-3 h-3 bg-blue-400 rounded-full flex-shrink-0"></div>
-                  <span className="text-gray-300 text-sm font-medium">Social Mentions</span>
+                  <span className="text-gray-200 text-sm font-medium">Social Mentions</span>
                 </div>
                 <div className="text-blue-400 text-3xl font-bold tabular-nums">{totalMentions}</div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-gray-400 pt-2 border-t border-gray-700">
+            <div className="flex items-center gap-2 text-xs text-white pt-2 border-t border-gray-700">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               Last updated {lastUpdated ? getTimeAgo(lastUpdated) : 'just now'}
             </div>
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Predicted Claims */}
-      <Card className="bg-gray-900 border-gray-700 overflow-hidden">
+      <div className="bg-gray-700/80 backdrop-blur-sm rounded-xl border border-gray-500 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out overflow-hidden">
         <div className="p-6">
-          <div className="flex items-start gap-4 mb-8">
+          <div className="flex items-start gap-4 mb-6">
             <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
               <div className="text-white text-xl font-bold">$</div>
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-2xl font-bold text-white leading-tight mb-1">Predicted Claims</h3>
-              <p className="text-green-200 text-sm font-medium leading-tight">AI-powered<br />financial<br />forecasting</p>
+              <p className="text-green-200 text-sm font-medium leading-normal">
+                AI-powered financial forecasting
+              </p>
             </div>
             <div className="flex flex-col items-center gap-1 flex-shrink-0">
               <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-gray-400 font-medium">AI</span>
+              <span className="text-xs text-gray-300 font-medium">AI</span>
             </div>
           </div>
           
@@ -140,7 +144,7 @@ export function StatusCards() {
             <div className="text-6xl font-bold text-green-400 mb-4 tracking-tight tabular-nums">
               {formatClaimsAmount(totalClaims)}
             </div>
-            <div className="text-gray-300 font-medium text-base mb-2">Expected in next 24h</div>
+            <div className="text-white font-medium text-base mb-2">Expected in next 24h</div>
             <div className="text-xs text-gray-400 mb-4">
               Based on {totalCalls} emergency calls and {predictions.length} active predictions
             </div>
@@ -149,9 +153,9 @@ export function StatusCards() {
           
           {predictions.length > 0 && (
             <div className="space-y-3">
-              <div className="text-sm text-gray-400 font-medium border-b border-gray-700 pb-2">Top Predictions</div>
+              <div className="text-sm text-white font-medium border-b border-gray-700 pb-2">Top Predictions</div>
               {predictions.slice(0, 3).map((pred) => (
-                <div key={pred.id} className="bg-gray-800/50 rounded-xl p-4 border border-gray-700 hover:bg-gray-800/70 transition-colors">
+                <div key={pred.id} className="bg-gray-700/90 backdrop-blur-sm rounded-xl p-4 border border-gray-500 shadow-md hover:bg-gray-600/90 transition-colors">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-200 text-sm font-medium truncate flex-1 mr-4">
                       {pred.label.length > 25 ? `${pred.label.substring(0, 25)}...` : pred.label}
@@ -165,35 +169,37 @@ export function StatusCards() {
             </div>
           )}
         </div>
-      </Card>
+      </div>
 
       {/* Adjuster Deployment */}
-      <Card className="bg-gray-900 border-gray-700 overflow-hidden">
+      <div className="bg-gray-700/80 backdrop-blur-sm rounded-xl border border-gray-500 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out overflow-hidden">
         <div className="p-6">
-          <div className="flex items-start gap-4 mb-8">
+          <div className="flex items-start gap-4 mb-6">
             <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
               <div className="w-6 h-6 border-2 border-white rounded-sm"></div>
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-2xl font-bold text-white leading-tight mb-1">Adjuster Deployment</h3>
-              <p className="text-blue-200 text-sm font-medium leading-tight">Resource<br />allocation &<br />dispatch</p>
+              <p className="text-blue-200 text-sm font-medium leading-normal">
+                Resource allocation & dispatch
+              </p>
             </div>
             <div className="flex flex-col items-center gap-1 flex-shrink-0">
               <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-gray-400 font-medium">ACTIVE</span>
+              <span className="text-xs text-gray-300 font-medium">ACTIVE</span>
             </div>
           </div>
           
           <div className="text-center mb-8">
             <div className="text-6xl font-bold text-blue-400 mb-4 tracking-tight tabular-nums">{totalAdjusters}</div>
-            <div className="text-gray-300 font-medium text-base mb-4">Adjusters needed</div>
+            <div className="text-white font-medium text-base mb-4">Adjusters needed</div>
             <div className="w-20 h-1 bg-blue-500 rounded-full mx-auto"></div>
           </div>
           
           <div className="space-y-4">
-            <div className="bg-gray-800/50 rounded-xl p-5 border border-gray-700">
+            <div className="bg-gray-700/90 backdrop-blur-sm rounded-xl p-5 border border-gray-500 shadow-md">
               <div className="flex items-center justify-between mb-6">
-                <span className="text-gray-300 font-medium text-base">High Priority Zones</span>
+                <span className="text-gray-200 font-medium text-base">High Priority Zones</span>
                 <span className="text-white font-bold text-2xl tabular-nums">{highPriorityZones}</span>
               </div>
               
@@ -249,7 +255,7 @@ export function StatusCards() {
             )}
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

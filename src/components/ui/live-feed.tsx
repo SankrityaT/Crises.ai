@@ -85,7 +85,7 @@ export function LiveFeed() {
   }, [events, rapidCalls, socialHotspots, filters]);
 
   return (
-    <Card className="bg-gray-900 border-gray-700 text-gray-100 flex flex-col">
+    <Card className="bg-gray-700/80 backdrop-blur-sm border-gray-500 text-gray-100 flex flex-col">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-3 text-xl text-gray-100">
           <Activity className="h-6 w-6 text-gray-100" />
@@ -107,7 +107,7 @@ export function LiveFeed() {
                 return (
                   <div
                     key={item.id}
-                    className={`p-3 border-l-4 hover:bg-gray-800 transition-colors ${
+                    className={`p-3 border-l-4 hover:bg-gray-600/90 transition-colors ${
                       index !== feedItems.length - 1 ? 'border-b border-gray-700' : ''
                     }`}
                     style={{ borderLeftColor: item.color }}
