@@ -1,0 +1,30 @@
+[
+  {
+    "id": "pred-001",
+    "label": "San Francisco Bay Area Earthquake Claims",
+    "expectedClaims": 15000000,
+    "adjustersNeeded": 45,
+    "generatedAt": "2024-01-15T14:35:00Z"
+  },
+  {
+    "id": "pred-002",
+    "label": "Marin County Wildfire Claims",
+    "expectedClaims": 25000000,
+    "adjustersNeeded": 65,
+    "generatedAt": "2024-01-15T13:50:00Z"
+  },
+  {
+    "id": "pred-003",
+    "label": "Sacramento Valley Flood Claims",
+    "expectedClaims": 8000000,
+    "adjustersNeeded": 20,
+    "generatedAt": "2024-01-15T11:00:00Z"
+  },
+  {
+    "id": "pred-004",
+    "label": "Orange County Fire Claims",
+    "expectedClaims": 12000000,
+    "adjustersNeeded": 30,
+    "generatedAt": "2024-01-15T14:00:00Z"
+  }
+]

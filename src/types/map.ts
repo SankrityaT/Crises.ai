@@ -56,3 +56,34 @@ export interface MapBootstrapPayload {
   predictions: PredictionSummary[];
   customerDensity: CustomerDensityRegion[];
 }
+
+export interface MapFilters {
+  showEvents: boolean;
+  showRapidCalls: boolean;
+  showSocialHotspots: boolean;
+  showCustomerDensity: boolean;
+  severityThreshold: EventSeverity;
+}
+
+export interface CustomerDensityRegion {
+  id: string;
+  coordinates: Coordinate[];
+  customerCount: number;
+  riskProfile: "low" | "medium" | "high";
+}
+
+export interface MapState {
+  events: EventFeature[];
+  rapidCalls: RapidCallCluster[];
+  socialHotspots: SocialHotspot[];
+  predictions: PredictionSummary[];
+  customerDensity: CustomerDensityRegion[];
+  filters: MapFilters;
+  isLoading: boolean;
+  lastUpdated: string | null;
+}
+
+export interface WebSocketPayload {
+  type: "event_update" | "rapid_call_update" | "social_update" | "prediction_update";
+  data: EventFeature | RapidCallCluster | SocialHotspot | PredictionSummary;
+}

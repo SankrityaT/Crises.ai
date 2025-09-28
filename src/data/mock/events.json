@@ -1,0 +1,72 @@
+[
+  {
+    "id": "usgs-eq-001",
+    "title": "M 6.2 Earthquake - 15km NE of San Francisco, CA",
+    "source": "usgs",
+    "type": "earthquake",
+    "severity": "high",
+    "magnitude": 6.2,
+    "startedAt": "2024-01-15T14:30:00Z",
+    "coordinates": {
+      "lat": 37.8044,
+      "lng": -122.2711
+    },
+    "metadata": {
+      "depth": "10.5 km",
+      "intensity": "VII"
+    }
+  },
+  {
+    "id": "nasa-fire-001",
+    "title": "Wildfire - Marin County, CA",
+    "source": "nasa",
+    "type": "wildfire",
+    "severity": "critical",
+    "startedAt": "2024-01-15T12:15:00Z",
+    "coordinates": {
+      "lat": 38.0834,
+      "lng": -122.7633
+    },
+    "metadata": {
+      "acres": "2500",
+      "containment": "15%"
+    }
+  },
+  {
+    "id": "kontur-flood-001",
+    "title": "Flash Flood Warning - Sacramento Valley",
+    "source": "kontur",
+    "type": "flood",
+    "severity": "moderate",
+    "startedAt": "2024-01-15T10:45:00Z",
+    "coordinates": {
+      "lat": 38.7816,
+      "lng": -121.3020
+    }
+  },
+  {
+    "id": "usgs-eq-002",
+    "title": "M 4.8 Earthquake - Los Angeles Basin",
+    "source": "usgs",
+    "type": "earthquake",
+    "severity": "moderate",
+    "magnitude": 4.8,
+    "startedAt": "2024-01-15T16:20:00Z",
+    "coordinates": {
+      "lat": 34.0522,
+      "lng": -118.2437
+    }
+  },
+  {
+    "id": "nasa-fire-002",
+    "title": "Brush Fire - Orange County, CA",
+    "source": "nasa",
+    "type": "wildfire",
+    "severity": "high",
+    "startedAt": "2024-01-15T13:30:00Z",
+    "coordinates": {
+      "lat": 33.7175,
+      "lng": -117.8311
+    }
+  }
+]

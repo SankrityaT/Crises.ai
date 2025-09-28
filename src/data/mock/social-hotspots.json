@@ -1,0 +1,42 @@
+[
+  {
+    "id": "social-001",
+    "sentimentScore": 0.2,
+    "mentionCount": 45,
+    "coordinates": {
+      "lat": 37.8044,
+      "lng": -122.2711
+    },
+    "lastUpdated": "2024-01-15T14:35:00Z"
+  },
+  {
+    "id": "social-002",
+    "sentimentScore": 0.1,
+    "mentionCount": 78,
+    "coordinates": {
+      "lat": 38.0834,
+      "lng": -122.7633
+    },
+    "lastUpdated": "2024-01-15T13:45:00Z"
+  },
+  {
+    "id": "social-003",
+    "sentimentScore": 0.4,
+    "mentionCount": 23,
+    "coordinates": {
+      "lat": 34.0522,
+      "lng": -118.2437
+    },
+    "lastUpdated": "2024-01-15T16:25:00Z"
+  },
+  {
+    "id": "social-004",
+    "sentimentScore": 0.7,
+    "mentionCount": 12,
+    "coordinates": {
+      "lat": 33.7175,
+      "lng": -117.8311
+    },
+    "lastUpdated": "2024-01-15T15:50:00Z"
+  }
+]

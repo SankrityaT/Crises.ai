@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rapid-001",
+    "coordinates": {
+      "lat": 37.7749,
+      "lng": -122.4194
+    },
+    "incidentType": "Structure Fire",
+    "volume": 12,
+    "lastUpdated": "2024-01-15T14:45:00Z"
+  },
+  {
+    "id": "rapid-002",
+    "coordinates": {
+      "lat": 34.0522,
+      "lng": -118.2437
+    },
+    "incidentType": "Medical Emergency",
+    "volume": 8,
+    "lastUpdated": "2024-01-15T15:20:00Z"
+  },
+  {
+    "id": "rapid-003",
+    "coordinates": {
+      "lat": 38.0834,
+      "lng": -122.7633
+    },
+    "incidentType": "Evacuation",
+    "volume": 25,
+    "lastUpdated": "2024-01-15T13:30:00Z"
+  },
+  {
+    "id": "rapid-004",
+    "coordinates": {
+      "lat": 33.7175,
+      "lng": -117.8311
+    },
+    "incidentType": "Traffic Accident",
+    "volume": 6,
+    "lastUpdated": "2024-01-15T16:10:00Z"
+  }
+]
