@@ -25,6 +25,7 @@ export function StatusCards() {
 
   const criticalEvents = events.filter(e => e.severity === 'critical').length;
   const highEvents = events.filter(e => e.severity === 'high').length;
+  const highPriorityZones = criticalEvents + highEvents;
 
   if (isLoading) {
     return (
@@ -63,6 +64,8 @@ export function StatusCards() {
             <div className="flex flex-col items-center gap-1 flex-shrink-0">
               <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
               <span className="text-xs text-gray-400 font-medium">LIVE</span>
+            </div>
+          </div>
           
           <div className="space-y-4">
             <div className="bg-gray-800/50 rounded-xl p-5 border border-gray-700">
@@ -141,7 +144,9 @@ export function StatusCards() {
               {predictions.slice(0, 3).map((pred) => (
                 <div key={pred.id} className="bg-gray-800/50 rounded-xl p-4 border border-gray-700 hover:bg-gray-800/70 transition-colors">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-200 text-sm font-medium truncate flex-1 mr-4">{pred.label}</span>
+                    <span className="text-gray-200 text-sm font-medium truncate flex-1 mr-4">
+                      {pred.label.length > 25 ? `${pred.label.substring(0, 25)}...` : pred.label}
+                    </span>
                     <span className="text-green-400 font-bold text-lg flex-shrink-0 tabular-nums">{formatClaimsAmount(pred.expectedClaims)}</span>
                   </div>
                 </div>
@@ -178,27 +183,34 @@ export function StatusCards() {
             <div className="bg-gray-800/50 rounded-xl p-5 border border-gray-700">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-gray-300 font-medium text-base">High Priority Zones</span>
-                <span className="text-white font-bold text-2xl tabular-nums">{criticalEvents + highEvents}</span>
+                <span className="text-white font-bold text-2xl tabular-nums">{highPriorityZones}</span>
               </div>
               
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-300 font-medium text-base">Deployment Status</span>
-                  <span className="text-white font-bold text-xl tabular-nums">75%</span>
+                  <span className="text-white font-bold text-xl tabular-nums">
+                    {totalAdjusters > 0 ? Math.round((totalAdjusters * 0.75)) : 75}%
+                  </span>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
-                  <div className="bg-gradient-to-r from-blue-500 to-blue-400 h-3 rounded-full transition-all duration-500" style={{ width: '75%' }}></div>
+                  <div 
+                    className="bg-gradient-to-r from-blue-500 to-blue-400 h-3 rounded-full transition-all duration-500" 
+                    style={{ width: totalAdjusters > 0 ? '75%' : '75%' }}
+                  ></div>
                 </div>
               </div>
             </div>
             
-            {highEvents > 0 && (
+            {highPriorityZones > 0 && (
               <div className="bg-gradient-to-r from-orange-900/40 to-red-900/40 border border-orange-600/50 rounded-xl p-4 shadow-lg">
                 <div className="flex items-start gap-3">
                   <div className="w-5 h-5 bg-orange-500 rounded-lg flex items-center justify-center shadow-sm flex-shrink-0">
                     <span className="text-white text-sm font-bold">!</span>
                   </div>
-                  <span className="text-orange-200 font-semibold leading-relaxed flex-1">High demand detected</span>
+                  <span className="text-orange-200 font-semibold leading-relaxed flex-1">
+                    High demand detected in {highPriorityZones} zones
+                  </span>
                   <div className="flex-shrink-0">
                     <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
                   </div>

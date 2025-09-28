@@ -9,6 +9,13 @@ export interface GeocodingResult {
   boundingbox?: [string, string, string, string];
 }
 
+interface NominatimSearchResult {
+  lat: string;
+  lon: string;
+  display_name: string;
+  boundingbox?: [string, string, string, string];
+}
+
 /**
  * Search for location suggestions using Nominatim (OpenStreetMap) API
  * Returns multiple results for autocomplete/suggestions
@@ -31,13 +38,13 @@ export async function searchLocationSuggestions(query: string): Promise<Geocodin
       throw new Error(`Search failed: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as NominatimSearchResult[];
     
     if (!data || data.length === 0) {
       return [];
     }
 
-    return data.map((result: any) => ({
+    return data.map((result) => ({
       lat: parseFloat(result.lat),
       lng: parseFloat(result.lon),
       display_name: result.display_name,
@@ -71,7 +78,7 @@ export async function geocodeLocation(query: string): Promise<GeocodingResult | 
       throw new Error(`Geocoding failed: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as NominatimSearchResult[];
     
     if (!data || data.length === 0) {
       return null;

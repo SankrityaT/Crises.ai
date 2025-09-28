@@ -12,7 +12,7 @@ import { updateEventsCache } from "../services/stateCache";
 // Kontur is a geospatial data provider - disable for now as it's generating too many generic events
 const DEFAULT_KONTUR_ENDPOINT = "https://api.kontur.io/risks/v1/events";
 
-interface KonturFeature {
+export interface KonturFeature {
   id: string;
   properties: {
     title?: string;
@@ -20,10 +20,150 @@ interface KonturFeature {
     severity?: string;
     category?: string;
     updated?: string;
+    locationName?: string;
   };
   geometry?: {
     type: string;
     coordinates?: [number, number, number?];
+  };
+}
+
+type HazardSeverity = NormalizedEvent["severity"];
+
+interface KonturHazardProfile {
+  label: string;
+  severity: HazardSeverity;
+  magnitudeRange: [number, number];
+  keywords?: string[];
+}
+
+export interface KonturHazardContext {
+  label: string;
+  severity: HazardSeverity;
+  magnitude: number;
+  riskScore: number;
+}
+
+const HAZARD_PROFILES: KonturHazardProfile[] = [
+  {
+    label: "Wildfire Threat",
+    severity: "high",
+    magnitudeRange: [3.2, 5.4],
+    keywords: ["fire", "heat", "wildfire", "hotspot", "burn"],
+  },
+  {
+    label: "Flash Flood Watch",
+    severity: "high",
+    magnitudeRange: [2.8, 4.8],
+    keywords: ["flood", "rain", "river", "water", "storm surge"],
+  },
+  {
+    label: "Severe Storm Risk",
+    severity: "high",
+    magnitudeRange: [2.5, 4.2],
+    keywords: ["storm", "wind", "hurricane", "cyclone", "lightning"],
+  },
+  {
+    label: "Landslide Concern",
+    severity: "moderate",
+    magnitudeRange: [1.8, 3.6],
+    keywords: ["landslide", "slope", "erosion", "soil"],
+  },
+  {
+    label: "Infrastructure Impact",
+    severity: "moderate",
+    magnitudeRange: [1.4, 3.2],
+    keywords: ["infrastructure", "power", "facility", "industrial"],
+  },
+  {
+    label: "Heat Stress Alert",
+    severity: "moderate",
+    magnitudeRange: [1.6, 3.0],
+    keywords: ["temperature", "heat", "drought"],
+  },
+  {
+    label: "Air Quality Warning",
+    severity: "moderate",
+    magnitudeRange: [1.2, 2.6],
+    keywords: ["smoke", "air", "pollution"],
+  },
+];
+
+const FALLBACK_PROFILES: KonturHazardProfile[] = [
+  { label: "Critical Response Needed", severity: "critical", magnitudeRange: [3.6, 5.8] },
+  { label: "High Impact Alert", severity: "high", magnitudeRange: [2.8, 4.6] },
+  { label: "Moderate Risk Zone", severity: "moderate", magnitudeRange: [1.5, 3.5] },
+  { label: "Emerging Hazard Signal", severity: "moderate", magnitudeRange: [1.2, 2.8] },
+];
+
+function seededRandom(seed: string, min: number, max: number): number {
+  let h = 0;
+  for (let i = 0; i < seed.length; i += 1) {
+    h = (h << 5) - h + seed.charCodeAt(i);
+    h |= 0; // Convert to 32bit integer
+  }
+
+  const normalized = Math.abs(Math.sin(h)) % 1;
+  const value = min + (max - min) * normalized;
+  return Number(value.toFixed(2));
+}
+
+function pickHazardProfile(
+  category: string | undefined,
+  severityHint: HazardSeverity,
+  seed: string
+): KonturHazardProfile {
+  if (category) {
+    const lowered = category.toLowerCase();
+    const match = HAZARD_PROFILES.find((profile) =>
+      profile.keywords?.some((keyword) => lowered.includes(keyword))
+    );
+    if (match) {
+      return match;
+    }
+  }
+
+  if (severityHint === "critical") {
+    return FALLBACK_PROFILES[0];
+  }
+
+  if (severityHint === "high") {
+    return FALLBACK_PROFILES[1];
+  }
+
+  const index = Math.floor(seededRandom(`${seed}-profile`, 0, FALLBACK_PROFILES.length));
+  return FALLBACK_PROFILES[index % FALLBACK_PROFILES.length];
+}
+
+export function deriveKonturHazardContext(
+  feature: KonturFeature | undefined,
+  seed: string
+): KonturHazardContext {
+  const severityHint = normalizeSeverity(feature?.properties?.severity);
+  const profile = pickHazardProfile(feature?.properties?.category, severityHint, seed);
+  const severity: HazardSeverity = profile.severity ?? severityHint;
+  const magnitude = seededRandom(`${seed}-mag`, profile.magnitudeRange[0], profile.magnitudeRange[1]);
+
+  const baseRisk =
+    severity === "critical"
+      ? 78
+      : severity === "high"
+        ? 58
+        : severity === "moderate"
+          ? 41
+          : 24;
+  const riskVariation = seededRandom(`${seed}-risk`, -9, 11);
+  const magnitudeInfluence = (magnitude - profile.magnitudeRange[0]) * 4;
+  const riskScore = Math.min(
+    95,
+    Math.max(7, Number((baseRisk + riskVariation + magnitudeInfluence).toFixed(1)))
+  );
+
+  return {
+    label: profile.label,
+    severity,
+    magnitude: Number(magnitude.toFixed(1)),
+    riskScore,
   };
 }
 
@@ -56,6 +196,38 @@ function extractCoordinate(value: unknown): [number, number] | null {
 
 function resolveMockPath(filename: string): string {
   return path.resolve(process.cwd(), "data", "mock", filename);
+}
+
+function toTitleCase(value?: string | null): string | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  return value
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+function formatCoordinate(latitude: number, longitude: number): string {
+  const latHemisphere = latitude >= 0 ? "N" : "S";
+  const lonHemisphere = longitude >= 0 ? "E" : "W";
+  const lat = Math.abs(latitude).toFixed(2);
+  const lon = Math.abs(longitude).toFixed(2);
+  return `${lat}°${latHemisphere}, ${lon}°${lonHemisphere}`;
+}
+
+function buildKonturTitle(
+  feature: KonturFeature,
+  latitude: number,
+  longitude: number,
+  hazardLabel: string
+): { title: string; location: string } {
+  const locationName = feature.properties?.locationName?.trim();
+  const location = locationName || `near ${formatCoordinate(latitude, longitude)}`;
+  const title = `${hazardLabel} – ${location}`;
+  return { title, location };
 }
 
 async function loadMockFeed(): Promise<KonturResponse> {
@@ -95,19 +267,34 @@ export function normalizeFeature(feature: KonturFeature): NormalizedEvent | null
     ? new Date(feature.properties.updated).toISOString()
     : new Date().toISOString();
 
+  const hazard = deriveKonturHazardContext(feature, feature.id);
+  const { title, location } = buildKonturTitle(feature, latitude, longitude, hazard.label);
+
+  const rawPayload = {
+    ...feature,
+    hazard,
+    generatedTitle: title,
+    generatedLocation: location,
+  } satisfies KonturFeature & {
+    hazard: KonturHazardContext;
+    generatedTitle: string;
+    generatedLocation: string;
+  };
+
   return {
     id: feature.id,
-    title: feature.properties?.title ?? "Kontur Event",
-    description: feature.properties?.description ?? feature.properties?.category,
+    title,
+    description: hazard.label,
     source: "kontur",
     coordinates: {
       latitude,
       longitude,
       depth: null,
     },
-    severity: normalizeSeverity(feature.properties?.severity),
+    severity: hazard.severity,
+    magnitude: hazard.magnitude,
     occurredAt,
-    raw: feature,
+    raw: rawPayload,
   } satisfies NormalizedEvent;
 }
 

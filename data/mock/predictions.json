@@ -2,17 +2,52 @@
   "predictions": [
     {
       "id": "pred_1",
-      "label": "Chicago Loop",
-      "expected_claims": 42,
-      "adjusters_needed": 6,
+      "label": "Los Angeles County - Wildfire Zone",
+      "expected_claims": 2500000,
+      "adjusters_needed": 15,
       "generated_at": "2025-09-28T02:00:00.000Z"
     },
     {
       "id": "pred_2",
-      "label": "Springfield",
-      "expected_claims": 18,
-      "adjusters_needed": 3,
+      "label": "Miami-Dade County - Hurricane Impact",
+      "expected_claims": 4200000,
+      "adjusters_needed": 25,
       "generated_at": "2025-09-28T01:45:00.000Z"
+    },
+    {
+      "id": "pred_3",
+      "label": "San Francisco Bay Area - Earthquake",
+      "expected_claims": 1800000,
+      "adjusters_needed": 12,
+      "generated_at": "2025-09-28T01:30:00.000Z"
+    },
+    {
+      "id": "pred_4",
+      "label": "Houston Metro - Flooding",
+      "expected_claims": 950000,
+      "adjusters_needed": 8,
+      "generated_at": "2025-09-28T01:15:00.000Z"
+    },
+    {
+      "id": "pred_5",
+      "label": "Phoenix Area - Wildfire",
+      "expected_claims": 1300000,
+      "adjusters_needed": 10,
+      "generated_at": "2025-09-28T01:00:00.000Z"
+    },
+    {
+      "id": "pred_6",
+      "label": "Seattle Metro - Building Collapse",
+      "expected_claims": 750000,
+      "adjusters_needed": 6,
+      "generated_at": "2025-09-28T00:45:00.000Z"
+    },
+    {
+      "id": "pred_7",
+      "label": "Dallas Area - Tornado Damage",
+      "expected_claims": 680000,
+      "adjusters_needed": 5,
+      "generated_at": "2025-09-28T00:30:00.000Z"
     }
   ]
 }

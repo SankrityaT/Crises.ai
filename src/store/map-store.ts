@@ -11,6 +11,117 @@ import type {
   EventSeverity 
 } from "@/types/map";
 
+const ADJUSTER_CLAIM_CAPACITY = 800;
+const MIN_BASELINE_MULTIPLIER = 0.5;
+const MAX_BASELINE_MULTIPLIER = 1.1;
+const FALLBACK_DOWNSCALE = 20;
+const CLAIM_TOTAL_CAP = 100_000;
+
+function normalizeExpectedClaims(
+  rawValue: unknown,
+  adjustersNeeded: number
+): number {
+  const numericAdjusters = Number.isFinite(adjustersNeeded)
+    ? Math.max(0, Math.round(adjustersNeeded))
+    : 0;
+
+  const baseline = numericAdjusters * ADJUSTER_CLAIM_CAPACITY;
+  const raw = Number(rawValue);
+  const hasRaw = Number.isFinite(raw) && raw > 0;
+  let normalized = hasRaw ? raw : baseline;
+
+  if (baseline > 0) {
+    const lowerBound = baseline * MIN_BASELINE_MULTIPLIER;
+    const upperBound = baseline * MAX_BASELINE_MULTIPLIER;
+    normalized = Math.min(Math.max(normalized, lowerBound), upperBound);
+  } else if (hasRaw && raw > 0) {
+    normalized = raw > 500_000 ? raw / FALLBACK_DOWNSCALE : raw;
+  }
+
+  if (!Number.isFinite(normalized) || normalized < 0) {
+    return 0;
+  }
+
+  return Math.round(normalized);
+}
+
+function normalizeAdjusters(value: unknown): number {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    return 0;
+  }
+  return Math.round(numeric);
+}
+
+function normalizePredictionSummary(
+  prediction: PredictionSummary
+): PredictionSummary {
+  const safeAdjusters = normalizeAdjusters(prediction.adjustersNeeded);
+  const expectedClaims = normalizeExpectedClaims(
+    prediction.expectedClaims,
+    safeAdjusters
+  );
+
+  return {
+    ...prediction,
+    expectedClaims,
+    adjustersNeeded: safeAdjusters,
+  };
+}
+
+function applyClaimsCap(
+  predictions: PredictionSummary[]
+): PredictionSummary[] {
+  const total = predictions.reduce((sum, prediction) => sum + prediction.expectedClaims, 0);
+
+  if (total <= CLAIM_TOTAL_CAP || total === 0) {
+    return predictions;
+  }
+
+  const scale = CLAIM_TOTAL_CAP / total;
+  let scaledTotal = 0;
+  const scaled = predictions.map((prediction) => {
+    const scaledClaims = Math.max(0, Math.round(prediction.expectedClaims * scale));
+    scaledTotal += scaledClaims;
+    return {
+      ...prediction,
+      expectedClaims: scaledClaims,
+    };
+  });
+
+  if (scaledTotal <= CLAIM_TOTAL_CAP) {
+    return scaled;
+  }
+
+  let overflow = scaledTotal - CLAIM_TOTAL_CAP;
+  if (overflow === 0) {
+    return scaled;
+  }
+
+  const indexed = scaled.map((prediction, index) => ({ prediction, index }));
+  indexed.sort((a, b) => b.prediction.expectedClaims - a.prediction.expectedClaims);
+
+  for (const entry of indexed) {
+    if (overflow <= 0) {
+      break;
+    }
+
+    if (entry.prediction.expectedClaims === 0) {
+      continue;
+    }
+
+    const deduction = Math.min(overflow, entry.prediction.expectedClaims);
+    entry.prediction = {
+      ...entry.prediction,
+      expectedClaims: entry.prediction.expectedClaims - deduction,
+    };
+    overflow -= deduction;
+  }
+
+  indexed.sort((a, b) => a.index - b.index);
+  return indexed.map((entry) => entry.prediction);
+}
+
 interface MapStore extends MapState {
   // Connection status
   connectionStatus: 'connected' | 'connecting' | 'disconnected';
@@ -22,7 +133,7 @@ interface MapStore extends MapState {
   setMapView: (center: [number, number], zoom: number) => void;
   
   // Actions
-  setEvents: (events: any[]) => void;
+  setEvents: (events: EventFeature[]) => void;
   addEvent: (event: EventFeature) => void;
   updateEvent: (id: string, event: Partial<EventFeature>) => void;
   
@@ -37,7 +148,7 @@ interface MapStore extends MapState {
   setPredictions: (predictions: PredictionSummary[]) => void;
   addPrediction: (prediction: PredictionSummary) => void;
   
-  setCustomerDensity: (regions: any[]) => void;
+  setCustomerDensity: (regions: CustomerDensityRegion[]) => void;
   
   updateFilters: (filters: Partial<MapFilters>) => void;
   toggleLayer: (layer: keyof Omit<MapFilters, 'severityThreshold'>) => void;
@@ -115,11 +226,20 @@ export const useMapStore = create<MapStore>()(
     })),
 
     // Predictions actions
-    setPredictions: (predictions) => set({ predictions, lastUpdated: new Date().toISOString() }),
-    addPrediction: (prediction) => set((state) => ({ 
-      predictions: [...state.predictions, prediction],
-      lastUpdated: new Date().toISOString()
-    })),
+    setPredictions: (predictions) => {
+      const normalized = predictions.map(normalizePredictionSummary);
+      return set({
+        predictions: applyClaimsCap(normalized),
+        lastUpdated: new Date().toISOString()
+      });
+    },
+    addPrediction: (prediction) => set((state) => {
+      const nextPredictions = [...state.predictions, normalizePredictionSummary(prediction)];
+      return {
+        predictions: applyClaimsCap(nextPredictions),
+        lastUpdated: new Date().toISOString()
+      };
+    }),
 
     // Customer density actions
     setCustomerDensity: (customerDensity) => set({ customerDensity }),
@@ -158,12 +278,18 @@ export const useMapStore = create<MapStore>()(
 
     getTotalPredictedClaims: () => {
       const { predictions } = get();
-      return predictions.reduce((total, pred) => total + pred.expectedClaims, 0);
+      return predictions.reduce((total, pred) => {
+        const claims = pred.expectedClaims || 0;
+        return total + (typeof claims === 'number' && !isNaN(claims) ? claims : 0);
+      }, 0);
     },
 
     getTotalAdjustersNeeded: () => {
       const { predictions } = get();
-      return predictions.reduce((total, pred) => total + pred.adjustersNeeded, 0);
+      return predictions.reduce((total, pred) => {
+        const adjusters = pred.adjustersNeeded || 0;
+        return total + (typeof adjusters === 'number' && !isNaN(adjusters) ? adjusters : 0);
+      }, 0);
     }
   }))
 );

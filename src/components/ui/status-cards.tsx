@@ -17,15 +17,26 @@ export function StatusCards() {
     isLoading
   } = useMapStore();
 
-  const totalEvents = events.length;
-  const totalCalls = rapidCalls.reduce((sum, call) => sum + (call.callCount || call.volume || 0), 0);
-  const totalMentions = socialHotspots.reduce((sum, hotspot) => sum + hotspot.mentionCount, 0);
+  const totalEvents = events?.length || 0;
+  const totalCalls = rapidCalls?.reduce((sum, call) => {
+    const count = call.callCount || call.volume || 0;
+    return sum + (typeof count === 'number' && !isNaN(count) ? count : 0);
+  }, 0) || 0;
+  const totalMentions = socialHotspots?.reduce((sum, hotspot) => {
+    const mentions = hotspot.mentionCount || 0;
+    return sum + (typeof mentions === 'number' && !isNaN(mentions) ? mentions : 0);
+  }, 0) || 0;
   const totalClaims = getTotalPredictedClaims();
   const totalAdjusters = getTotalAdjustersNeeded();
 
-  const criticalEvents = events.filter(e => e.severity === 'critical').length;
-  const highEvents = events.filter(e => e.severity === 'high').length;
-  const highPriorityZones = criticalEvents + highEvents;
+  const criticalEvents = events?.filter(e => e?.severity === 'critical').length || 0;
+  const highEvents = events?.filter(e => e?.severity === 'high').length || 0;
+  
+  // Include rapid calls in high priority zones calculation
+  const criticalRapidCalls = rapidCalls?.filter(call => call?.severity === 'critical').length || 0;
+  const highRapidCalls = rapidCalls?.filter(call => call?.severity === 'high').length || 0;
+  
+  const highPriorityZones = criticalEvents + highEvents + criticalRapidCalls + highRapidCalls;
 
   if (isLoading) {
     return (
@@ -129,7 +140,10 @@ export function StatusCards() {
             <div className="text-6xl font-bold text-green-400 mb-4 tracking-tight tabular-nums">
               {formatClaimsAmount(totalClaims)}
             </div>
-            <div className="text-gray-300 font-medium text-base mb-4">Expected in next 24h</div>
+            <div className="text-gray-300 font-medium text-base mb-2">Expected in next 24h</div>
+            <div className="text-xs text-gray-400 mb-4">
+              Based on {totalCalls} emergency calls and {predictions.length} active predictions
+            </div>
             <div className="w-20 h-1 bg-green-500 rounded-full mx-auto"></div>
           </div>
           
@@ -185,15 +199,26 @@ export function StatusCards() {
               
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-300 font-medium text-base">Deployment Status</span>
-                  <span className="text-white font-bold text-xl tabular-nums">
-                    {totalAdjusters > 0 ? Math.round((totalAdjusters * 0.75)) : 75}%
-                  </span>
+                  <div className="flex flex-col">
+                    <span className="text-gray-300 font-medium text-base">Deployment Status</span>
+                    <span className="text-xs text-gray-400">Adjusters per high-priority zone</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-white font-bold text-xl tabular-nums block">
+                      {totalAdjusters > 0 && highPriorityZones > 0 ? 
+                        `${(totalAdjusters / highPriorityZones).toFixed(1)}` : 
+                        totalAdjusters > 0 ? totalAdjusters : '0'
+                      }
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      {highPriorityZones > 0 ? 'per zone' : 'available'}
+                    </span>
+                  </div>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
                   <div 
                     className="bg-gradient-to-r from-blue-500 to-blue-400 h-3 rounded-full transition-all duration-500" 
-                    style={{ width: totalAdjusters > 0 ? '75%' : '75%' }}
+                    style={{ width: `${totalAdjusters > 0 ? Math.round((totalAdjusters / (totalAdjusters + highPriorityZones)) * 100) : 75}%` }}
                   ></div>
                 </div>
               </div>
@@ -201,13 +226,21 @@ export function StatusCards() {
             
             {highPriorityZones > 0 && (
               <div className="bg-gradient-to-r from-orange-900/40 to-red-900/40 border border-orange-600/50 rounded-xl p-4 shadow-lg">
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3 mb-3">
                   <div className="w-5 h-5 bg-orange-500 rounded-lg flex items-center justify-center shadow-sm flex-shrink-0">
                     <span className="text-white text-sm font-bold">!</span>
                   </div>
-                  <span className="text-orange-200 font-semibold leading-relaxed flex-1">
-                    High demand detected in {highPriorityZones} zones
-                  </span>
+                  <div className="flex-1">
+                    <span className="text-orange-200 font-semibold leading-relaxed block mb-2">
+                      High demand detected in {highPriorityZones} zones
+                    </span>
+                    <div className="text-xs text-orange-300 space-y-1">
+                      {criticalEvents > 0 && <div>• {criticalEvents} critical events</div>}
+                      {highEvents > 0 && <div>• {highEvents} high severity events</div>}
+                      {criticalRapidCalls > 0 && <div>• {criticalRapidCalls} critical 911 clusters</div>}
+                      {highRapidCalls > 0 && <div>• {highRapidCalls} high priority 911 clusters</div>}
+                    </div>
+                  </div>
                   <div className="flex-shrink-0">
                     <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
                   </div>
