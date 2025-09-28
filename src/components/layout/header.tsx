@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 type NavTab = 'dashboard' | 'analytics';
 
@@ -22,8 +23,8 @@ export function Header({ activeTab = 'dashboard', onTabChange }: HeaderProps) {
       <div className="flex items-center justify-between px-6 py-3">
         {/* Logo and Title */}
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-lg flex items-center justify-center shadow-sm">
-            <div className="w-5 h-5 border-2 border-white rounded-sm"></div>
+          <div className="w-10 h-10 flex items-center justify-center shadow-sm">
+            <Image src="/logo.svg" alt="Crises.ai Logo" width={40} height={40} className="rounded-lg" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Crises.ai</h1>
@@ -31,42 +32,35 @@ export function Header({ activeTab = 'dashboard', onTabChange }: HeaderProps) {
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-2 bg-gray-100 rounded-full p-1">
-          <button 
-            onClick={() => handleTabClick('dashboard')}
-            className={`px-6 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
-              currentTab === 'dashboard' 
-                ? 'bg-white text-gray-900 shadow-sm' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-            }`}
-          >
-            Dashboard
-          </button>
-          <button 
-            onClick={() => handleTabClick('analytics')}
-            className={`px-6 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
-              currentTab === 'analytics' 
-                ? 'bg-white text-gray-900 shadow-sm' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-            }`}
-          >
-            Analytics
-          </button>
-        </nav>
+        {/* Navigation - Centered */}
+        <div className="absolute left-1/2 transform -translate-x-1/2">
+          <nav className="hidden md:flex items-center justify-center gap-2 bg-gray-100 rounded-full p-1">
+            <button 
+              onClick={() => handleTabClick('dashboard')}
+              className={`px-6 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+                currentTab === 'dashboard' 
+                  ? 'bg-white text-gray-900 shadow-sm' 
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              Dashboard
+            </button>
+            <button 
+              onClick={() => handleTabClick('analytics')}
+              className={`px-6 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+                currentTab === 'analytics' 
+                  ? 'bg-white text-gray-900 shadow-sm' 
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              Analytics
+            </button>
+          </nav>
+        </div>
 
-        {/* Right side */}
+        {/* Right side - Empty now */}
         <div className="flex items-center gap-3">
-          {/* Connection Status */}
-          <div className="flex items-center gap-2 px-2 py-1 bg-red-50 rounded-md">
-            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-            <span className="text-xs font-medium text-red-700">Offline</span>
-          </div>
-
-          {/* User */}
-          <div className="w-7 h-7 bg-slate-200 rounded-full flex items-center justify-center">
-            <span className="text-xs font-medium text-slate-700">SF</span>
-          </div>
+          {/* Placeholder for future elements */}
         </div>
       </div>
     </header>
