@@ -1,33 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MapView } from "@/components/map/map-view";
 import { Header } from "@/components/layout/header";
 import { FilterPanel } from "@/components/ui/filter-panel";
 import { StatusCards } from "@/components/ui/status-cards";
 import { LiveFeed } from "@/components/ui/live-feed";
 import { useSocketEvents } from "@/hooks/use-socket-events";
+import { useMapBootstrap } from "@/hooks/use-map-bootstrap";
+import { useAIIntegration } from "@/hooks/use-ai-integration";
 import { useMapStore } from "@/store/map-store";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-// No icon imports needed - using simple design
-
-// Mock data imports
-import eventsData from "@/data/mock/events.json";
-import rapidCallsData from "@/data/mock/rapid-calls.json";
-import socialHotspotsData from "@/data/mock/social-hotspots.json";
-import predictionsData from "@/data/mock/predictions.json";
-import customerDensityData from "@/data/mock/customer-density.json";
 
 type NavTab = 'dashboard' | 'analytics';
 
 export default function MapPage() {
   const { 
-    setEvents, 
-    setRapidCalls, 
-    setSocialHotspots, 
-    setPredictions, 
-    setCustomerDensity,
     connectionStatus 
   } = useMapStore();
 
@@ -37,13 +24,14 @@ export default function MapPage() {
   const [navTab, setNavTab] = useState<NavTab>('dashboard');
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Initialize WebSocket connection
+  // Initialize WebSocket connection, bootstrap data, and AI integration
   useSocketEvents();
+  useMapBootstrap();
+  useAIIntegration();
 
   const handleNavTabChange = (tab: NavTab) => {
     setNavTab(tab);
     
-    // Auto-open appropriate panels based on nav selection
     if (tab === 'dashboard') {
       setLeftPanelOpen(true);
       setActiveTab('layers');
@@ -65,23 +53,6 @@ export default function MapPage() {
       setRightPanelOpen(false);
     }
   };
-
-  // Load mock data on component mount
-  useEffect(() => {
-    const loadMockData = async () => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setEvents(eventsData);
-      setRapidCalls(rapidCallsData);
-      setSocialHotspots(socialHotspotsData);
-      setPredictions(predictionsData);
-      setCustomerDensity(customerDensityData);
-    };
-
-    if (process.env.NODE_ENV === 'development' || process.env.USE_MOCK_DATA === 'true') {
-      loadMockData();
-    }
-  }, [setEvents, setRapidCalls, setSocialHotspots, setPredictions, setCustomerDensity]);
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
@@ -174,7 +145,7 @@ export default function MapPage() {
                       </span>
                     </div>
                     <div className="text-sm text-slate-500">
-                      Updated: {new Date().toLocaleTimeString()}
+                      Updated: --:--:--
                     </div>
                     <div className="text-sm text-slate-500">
                       Events: <span className="font-semibold text-red-600">12</span>

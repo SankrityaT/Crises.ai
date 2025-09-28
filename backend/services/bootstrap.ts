@@ -84,26 +84,31 @@ async function fetchEventsFromDatabase(limit = 100): Promise<PersistedEvent[]> {
 }
 
 async function loadRapidMocks(): Promise<RapidCallCluster[]> {
-  const content = await readFile(resolveMockPath("rapidsos-incidents.json"), "utf-8");
-  const json = JSON.parse(content) as { disasters?: Array<{
-    id?: string;
-    disasterNumber: number;
-    state: string;
-    incidentType: string;
-    declarationType?: string;
-    declarationTitle?: string;
-    designatedArea?: string;
-    declarationDate?: string;
-    incidentBeginDate?: string;
-    lastRefresh?: string;
-  }> };
+  try {
+    const content = await readFile(resolveMockPath("fema-declarations.json"), "utf-8");
+    const json = JSON.parse(content) as { disasters?: Array<{
+      id?: string;
+      disasterNumber: number;
+      state: string;
+      incidentType: string;
+      declarationType?: string;
+      declarationTitle?: string;
+      designatedArea?: string;
+      declarationDate?: string;
+      incidentBeginDate?: string;
+      lastRefresh?: string;
+    }> };
 
-  const disasters = json.disasters ?? [];
-  if (!disasters.length) {
+    const disasters = json.disasters ?? [];
+    if (!disasters.length) {
+      return [];
+    }
+
+    return buildRapidClusters(disasters);
+  } catch (error) {
+    console.warn("[Bootstrap] Failed to load rapid call mocks, returning empty array", error);
     return [];
   }
-
-  return buildRapidClusters(disasters);
 }
 
 async function loadSocialMocks(): Promise<SocialHotspot[]> {
