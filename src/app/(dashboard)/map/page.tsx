@@ -10,12 +10,16 @@ import { useSocketEvents } from "@/hooks/use-socket-events";
 import { useMapBootstrap } from "@/hooks/use-map-bootstrap";
 import { useAIIntegration } from "@/hooks/use-ai-integration";
 import { useMapStore } from "@/store/map-store";
+import { getTimeAgo } from "@/lib/utils";
 
 type NavTab = 'dashboard' | 'analytics';
 
 export default function MapPage() {
   const { 
-    connectionStatus 
+    connectionStatus,
+    events,
+    rapidCalls,
+    lastUpdated
   } = useMapStore();
 
   const [leftPanelOpen, setLeftPanelOpen] = useState(true);
@@ -145,13 +149,13 @@ export default function MapPage() {
                       </span>
                     </div>
                     <div className="text-sm text-slate-500">
-                      Updated: --:--:--
+                      Updated: {lastUpdated ? getTimeAgo(lastUpdated) : '--:--:--'}
                     </div>
                     <div className="text-sm text-slate-500">
-                      Events: <span className="font-semibold text-red-600">12</span>
+                      Events: <span className="font-semibold text-red-600">{events.length}</span>
                     </div>
                     <div className="text-sm text-slate-500">
-                      Calls: <span className="font-semibold text-orange-600">51</span>
+                      Calls: <span className="font-semibold text-orange-600">{rapidCalls.reduce((sum, call) => sum + (call.callCount || call.volume || 0), 0)}</span>
                     </div>
                   </div>
                   <button

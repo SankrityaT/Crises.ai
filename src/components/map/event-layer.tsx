@@ -35,7 +35,7 @@ function getEventIconSVG(eventType: string, color: string, size: number) {
     `;
   }
   
-  if (type.includes('fire') || type.includes('wildfire')) {
+  if (type.includes('fire') || type.includes('wildfire') || type.includes('structure fire') || type.includes('working fire') || type.includes('vehicle fire')) {
     return `
       <div class="relative">
         <svg width="${size * 2}" height="${size * 2}" viewBox="0 0 24 24" fill="none" class="drop-shadow-lg">
@@ -48,7 +48,7 @@ function getEventIconSVG(eventType: string, color: string, size: number) {
     `;
   }
   
-  if (type.includes('flood') || type.includes('hurricane') || type.includes('storm')) {
+  if (type.includes('flood') || type.includes('hurricane') || type.includes('storm') || type.includes('traffic') || type.includes('collision') || type.includes('accident')) {
     return `
       <div class="relative">
         <svg width="${size * 2}" height="${size * 2}" viewBox="0 0 24 24" fill="none" class="drop-shadow-lg">
@@ -57,6 +57,18 @@ function getEventIconSVG(eventType: string, color: string, size: number) {
           <path d="M6 16c2-2 4 2 6 0s4 2 6 0" stroke="white" stroke-width="2" fill="none"/>
         </svg>
         <div class="absolute inset-0 rounded-full animate-bounce bg-current opacity-20" style="color: ${color}"></div>
+      </div>
+    `;
+  }
+  
+  if (type.includes('medical') || type.includes('rescue') || type.includes('hazmat') || type.includes('extrication')) {
+    return `
+      <div class="relative">
+        <svg width="${size * 2}" height="${size * 2}" viewBox="0 0 24 24" fill="none" class="drop-shadow-lg">
+          <circle cx="12" cy="12" r="10" fill="${color}" stroke="white" stroke-width="2"/>
+          <path d="M12 6v12M6 12h12" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="absolute inset-0 rounded-full animate-pulse bg-current opacity-25" style="color: ${color}"></div>
       </div>
     `;
   }

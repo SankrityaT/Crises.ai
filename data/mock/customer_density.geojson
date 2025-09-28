@@ -3,63 +3,506 @@
   "features": [
     {
       "type": "Feature",
-      "id": "chi_downtown",
+      "id": "chi_metro",
       "properties": {
-        "name": "Chicago Loop",
+        "name": "Chicago Metro",
         "densityScore": 0.92,
-        "population": 85000
+        "population": 2700000,
+        "customerCount": 405000,
+        "riskProfile": "high"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
-            [-87.6348, 41.8861],
-            [-87.6180, 41.8861],
-            [-87.6180, 41.8750],
-            [-87.6348, 41.8750],
-            [-87.6348, 41.8861]
+            [-87.9298, 41.6781],
+            [-87.4298, 41.6781],
+            [-87.4298, 42.0781],
+            [-87.9298, 42.0781],
+            [-87.9298, 41.6781]
           ]
         ]
       }
     },
     {
       "type": "Feature",
-      "id": "naperville",
+      "id": "dallas_metro",
       "properties": {
-        "name": "Naperville",
-        "densityScore": 0.56,
-        "population": 148000
+        "name": "Dallas-Fort Worth",
+        "densityScore": 0.85,
+        "population": 2400000,
+        "customerCount": 360000,
+        "riskProfile": "high"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
-            [-88.2202, 41.8126],
-            [-88.0800, 41.8126],
-            [-88.0800, 41.6897],
-            [-88.2202, 41.6897],
-            [-88.2202, 41.8126]
+            [-97.0970, 32.5767],
+            [-96.4970, 32.5767],
+            [-96.4970, 32.9767],
+            [-97.0970, 32.9767],
+            [-97.0970, 32.5767]
           ]
         ]
       }
     },
     {
       "type": "Feature",
-      "id": "springfield",
+      "id": "houston_metro",
       "properties": {
-        "name": "Springfield",
-        "densityScore": 0.34,
-        "population": 115000
+        "name": "Houston Metro",
+        "densityScore": 0.88,
+        "population": 2300000,
+        "customerCount": 345000,
+        "riskProfile": "high"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
-            [-89.7440, 39.8500],
-            [-89.5884, 39.8500],
-            [-89.5884, 39.7000],
-            [-89.7440, 39.7000],
-            [-89.7440, 39.8500]
+            [-95.6698, 29.5604],
+            [-95.0698, 29.5604],
+            [-95.0698, 29.9604],
+            [-95.6698, 29.9604],
+            [-95.6698, 29.5604]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "phoenix_metro",
+      "properties": {
+        "name": "Phoenix Metro",
+        "densityScore": 0.78,
+        "population": 1700000,
+        "customerCount": 255000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-112.3740, 33.2484],
+            [-111.7740, 33.2484],
+            [-111.7740, 33.6484],
+            [-112.3740, 33.6484],
+            [-112.3740, 33.2484]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "atlanta_metro",
+      "properties": {
+        "name": "Atlanta Metro",
+        "densityScore": 0.82,
+        "population": 1600000,
+        "customerCount": 240000,
+        "riskProfile": "high"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-84.6880, 33.5490],
+            [-84.0880, 33.5490],
+            [-84.0880, 33.9490],
+            [-84.6880, 33.9490],
+            [-84.6880, 33.5490]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "denver_metro",
+      "properties": {
+        "name": "Denver Metro",
+        "densityScore": 0.75,
+        "population": 1400000,
+        "customerCount": 210000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-105.2903, 39.5392],
+            [-104.6903, 39.5392],
+            [-104.6903, 39.9392],
+            [-105.2903, 39.9392],
+            [-105.2903, 39.5392]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tampa_metro",
+      "properties": {
+        "name": "Tampa Bay",
+        "densityScore": 0.71,
+        "population": 1200000,
+        "customerCount": 180000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-82.7572, 27.7506],
+            [-82.1572, 27.7506],
+            [-82.1572, 28.1506],
+            [-82.7572, 28.1506],
+            [-82.7572, 27.7506]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "stlouis_metro",
+      "properties": {
+        "name": "St. Louis Metro",
+        "densityScore": 0.68,
+        "population": 1100000,
+        "customerCount": 165000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-90.4994, 38.4270],
+            [-89.8994, 38.4270],
+            [-89.8994, 38.8270],
+            [-90.4994, 38.8270],
+            [-90.4994, 38.4270]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kc_metro",
+      "properties": {
+        "name": "Kansas City",
+        "densityScore": 0.65,
+        "population": 900000,
+        "customerCount": 135000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-94.8786, 38.8997],
+            [-94.2786, 38.8997],
+            [-94.2786, 39.2997],
+            [-94.8786, 39.2997],
+            [-94.8786, 38.8997]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "indy_metro",
+      "properties": {
+        "name": "Indianapolis",
+        "densityScore": 0.63,
+        "population": 850000,
+        "customerCount": 127500,
+        "riskProfile": "low"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-86.4581, 39.5684],
+            [-85.8581, 39.5684],
+            [-85.8581, 39.9684],
+            [-86.4581, 39.9684],
+            [-86.4581, 39.5684]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "la_metro",
+      "properties": {
+        "name": "Los Angeles Metro",
+        "densityScore": 0.89,
+        "population": 3900000,
+        "customerCount": 585000,
+        "riskProfile": "high"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-118.5437, 34.2522],
+            [-117.9437, 34.2522],
+            [-117.9437, 33.8522],
+            [-118.5437, 33.8522],
+            [-118.5437, 34.2522]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sf_bay_area",
+      "properties": {
+        "name": "San Francisco Bay Area",
+        "densityScore": 0.91,
+        "population": 2800000,
+        "customerCount": 420000,
+        "riskProfile": "high"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-122.7194, 37.9749],
+            [-122.1194, 37.9749],
+            [-122.1194, 37.5749],
+            [-122.7194, 37.5749],
+            [-122.7194, 37.9749]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "miami_metro",
+      "properties": {
+        "name": "Miami-Dade Metro",
+        "densityScore": 0.86,
+        "population": 2700000,
+        "customerCount": 405000,
+        "riskProfile": "high"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-80.4918, 25.9617],
+            [-80.0918, 25.9617],
+            [-80.0918, 25.5617],
+            [-80.4918, 25.5617],
+            [-80.4918, 25.9617]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "seattle_metro",
+      "properties": {
+        "name": "Seattle Metro",
+        "densityScore": 0.77,
+        "population": 1800000,
+        "customerCount": 270000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-122.6321, 47.8062],
+            [-122.0321, 47.8062],
+            [-122.0321, 47.4062],
+            [-122.6321, 47.4062],
+            [-122.6321, 47.8062]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "boston_metro",
+      "properties": {
+        "name": "Boston Metro",
+        "densityScore": 0.84,
+        "population": 1900000,
+        "customerCount": 285000,
+        "riskProfile": "high"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-71.2590, 42.5584],
+            [-70.8590, 42.5584],
+            [-70.8590, 42.1584],
+            [-71.2590, 42.1584],
+            [-71.2590, 42.5584]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "detroit_metro",
+      "properties": {
+        "name": "Detroit Metro",
+        "densityScore": 0.69,
+        "population": 1500000,
+        "customerCount": 225000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-83.4473, 42.5314],
+            [-82.9473, 42.5314],
+            [-82.9473, 42.1314],
+            [-83.4473, 42.1314],
+            [-83.4473, 42.5314]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "nashville_metro",
+      "properties": {
+        "name": "Nashville Metro",
+        "densityScore": 0.72,
+        "population": 1300000,
+        "customerCount": 195000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-87.0379, 36.3628],
+            [-86.5379, 36.3628],
+            [-86.5379, 35.9628],
+            [-87.0379, 35.9628],
+            [-87.0379, 36.3628]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "charlotte_metro",
+      "properties": {
+        "name": "Charlotte Metro",
+        "densityScore": 0.74,
+        "population": 1200000,
+        "customerCount": 180000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-81.0781, 35.4270],
+            [-80.6781, 35.4270],
+            [-80.6781, 35.0270],
+            [-81.0781, 35.0270],
+            [-81.0781, 35.4270]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "columbus_metro",
+      "properties": {
+        "name": "Columbus Metro",
+        "densityScore": 0.66,
+        "population": 1100000,
+        "customerCount": 165000,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-83.2985, 40.1629],
+            [-82.7985, 40.1629],
+            [-82.7985, 39.7629],
+            [-83.2985, 39.7629],
+            [-83.2985, 40.1629]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "milwaukee_metro",
+      "properties": {
+        "name": "Milwaukee Metro",
+        "densityScore": 0.64,
+        "population": 950000,
+        "customerCount": 142500,
+        "riskProfile": "medium"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-88.2504, 43.2388],
+            [-87.7504, 43.2388],
+            [-87.7504, 42.8388],
+            [-88.2504, 42.8388],
+            [-88.2504, 43.2388]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "oklahoma_city",
+      "properties": {
+        "name": "Oklahoma City Metro",
+        "densityScore": 0.61,
+        "population": 800000,
+        "customerCount": 120000,
+        "riskProfile": "low"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-97.8348, 35.6870],
+            [-97.2348, 35.6870],
+            [-97.2348, 35.2870],
+            [-97.8348, 35.2870],
+            [-97.8348, 35.6870]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "omaha_metro",
+      "properties": {
+        "name": "Omaha Metro",
+        "densityScore": 0.58,
+        "population": 650000,
+        "customerCount": 97500,
+        "riskProfile": "low"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-96.2908, 41.5868],
+            [-95.7908, 41.5868],
+            [-95.7908, 41.1868],
+            [-96.2908, 41.1868],
+            [-96.2908, 41.5868]
           ]
         ]
       }

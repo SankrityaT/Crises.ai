@@ -38,34 +38,36 @@ export function FilterPanel() {
     setMapView([result.lat, result.lng], 12);
   };
 
+  const { events, rapidCalls, socialHotspots, customerDensity } = useMapStore();
+  
   const layerControls = [
     { 
       key: 'showEvents' as const, 
       label: 'Disaster Events', 
       icon: <div className="w-3 h-3 bg-red-500 rounded-full border border-red-600"></div>,
       color: 'bg-red-50 text-red-800 border-red-200',
-      count: 12
+      count: events.length
     },
     { 
       key: 'showRapidCalls' as const, 
       label: 'Emergency Calls', 
       icon: <div className="w-3 h-3 bg-orange-500 rounded border border-orange-600"></div>,
       color: 'bg-orange-50 text-orange-800 border-orange-200',
-      count: 51
+      count: rapidCalls.reduce((sum, call) => sum + (call.callCount || call.volume || 0), 0)
     },
     { 
       key: 'showSocialHotspots' as const, 
       label: 'Social Activity', 
       icon: <div className="w-3 h-3 bg-blue-500 rounded-sm border border-blue-600"></div>,
       color: 'bg-blue-50 text-blue-800 border-blue-200',
-      count: 158
+      count: socialHotspots.reduce((sum, hotspot) => sum + hotspot.mentionCount, 0)
     },
     { 
       key: 'showCustomerDensity' as const, 
       label: 'Customer Areas', 
       icon: <div className="w-3 h-3 bg-purple-500 rounded-full border border-purple-600 opacity-70"></div>,
       color: 'bg-purple-50 text-purple-800 border-purple-200',
-      count: 8
+      count: customerDensity.length
     }
   ];
 

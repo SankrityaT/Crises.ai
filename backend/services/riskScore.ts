@@ -161,7 +161,9 @@ function normalizeDensity(densityScore?: number): number {
     return 0.2;
   }
 
-  return Math.max(0, Math.min(densityScore, 1));
+  // Ensure density score is between 0 and 1
+  const normalized = Math.max(0, Math.min(Number(densityScore), 1));
+  return normalized;
 }
 
 function normalizeRecency(occurredAt: string): number {
@@ -195,13 +197,15 @@ function computeRiskScore(
     recencyWeight,
   };
 
-  const riskScore =
-    (magnitudeWeight * 0.5 + densityWeight * 0.3 + recencyWeight * 0.2) * 100;
+  // Calculate weighted score (0-1 range) then convert to percentage
+  const weightedScore = (magnitudeWeight * 0.5 + densityWeight * 0.3 + recencyWeight * 0.2);
+  const riskScore = Math.min(100, Math.max(0, weightedScore * 100));
+
   const level = determineLevel(riskScore);
 
   return {
     eventId: event.id,
-    riskScore: Number(riskScore.toFixed(2)),
+    riskScore: Number(riskScore.toFixed(1)), // Round to 1 decimal place
     level,
     factors,
     customerDensityId: region?.id,

@@ -1,0 +1,162 @@
+[
+  {
+    "call_number": "240927001",
+    "incident_number": "24123456",
+    "call_type": "Structure Fire",
+    "call_date": "2025-09-27T23:45:00.000Z",
+    "address": "1234 Mission St",
+    "city": "San Francisco",
+    "neighborhood_district": "Mission",
+    "battalion": "B02",
+    "station_area": "09",
+    "original_priority": "3",
+    "priority": "3",
+    "number_of_alarms": "2",
+    "unit_type": "ENGINE",
+    "call_type_group": "Fire",
+    "supervisor_district": "9",
+    "point": {
+      "coordinates": [-122.4194, 37.7749]
+    }
+  },
+  {
+    "call_number": "240927002",
+    "incident_number": "24123457",
+    "call_type": "Medical Incident",
+    "call_date": "2025-09-27T23:42:00.000Z",
+    "address": "555 California St",
+    "city": "San Francisco",
+    "neighborhood_district": "Financial District",
+    "battalion": "B01",
+    "station_area": "01",
+    "original_priority": "2",
+    "priority": "2",
+    "number_of_alarms": "1",
+    "unit_type": "MEDIC",
+    "call_type_group": "Medical",
+    "supervisor_district": "3",
+    "point": {
+      "coordinates": [-122.4040, 37.7929]
+    }
+  },
+  {
+    "call_number": "240927003",
+    "incident_number": "24123458",
+    "call_type": "Vehicle Fire",
+    "call_date": "2025-09-27T23:38:00.000Z",
+    "address": "101 California St",
+    "city": "San Francisco",
+    "neighborhood_district": "Financial District",
+    "battalion": "B01",
+    "station_area": "01",
+    "original_priority": "3",
+    "priority": "3",
+    "number_of_alarms": "1",
+    "unit_type": "ENGINE",
+    "call_type_group": "Fire",
+    "supervisor_district": "3",
+    "point": {
+      "coordinates": [-122.3988, 37.7929]
+    }
+  },
+  {
+    "call_number": "240927004",
+    "incident_number": "24123459",
+    "call_type": "Traffic Collision",
+    "call_date": "2025-09-27T23:35:00.000Z",
+    "address": "Van Ness Ave & Market St",
+    "city": "San Francisco",
+    "neighborhood_district": "Civic Center",
+    "battalion": "B02",
+    "station_area": "07",
+    "original_priority": "2",
+    "priority": "2",
+    "number_of_alarms": "1",
+    "unit_type": "RESCUE",
+    "call_type_group": "Non Fire",
+    "supervisor_district": "6",
+    "point": {
+      "coordinates": [-122.4194, 37.7749]
+    }
+  },
+  {
+    "call_number": "240927005",
+    "incident_number": "24123460",
+    "call_type": "Alarm System Activation",
+    "call_date": "2025-09-27T23:32:00.000Z",
+    "address": "1 Market St",
+    "city": "San Francisco",
+    "neighborhood_district": "Financial District",
+    "battalion": "B01",
+    "station_area": "01",
+    "original_priority": "1",
+    "priority": "1",
+    "number_of_alarms": "1",
+    "unit_type": "ENGINE",
+    "call_type_group": "Alarm",
+    "supervisor_district": "3",
+    "point": {
+      "coordinates": [-122.3954, 37.7946]
+    }
+  },
+  {
+    "call_number": "240927006",
+    "incident_number": "24123461",
+    "call_type": "Rescue Extrication",
+    "call_date": "2025-09-27T23:28:00.000Z",
+    "address": "Golden Gate Bridge",
+    "city": "San Francisco",
+    "neighborhood_district": "Presidio",
+    "battalion": "B04",
+    "station_area": "28",
+    "original_priority": "3",
+    "priority": "3",
+    "number_of_alarms": "2",
+    "unit_type": "RESCUE",
+    "call_type_group": "Rescue",
+    "supervisor_district": "2",
+    "point": {
+      "coordinates": [-122.4783, 37.8199]
+    }
+  },
+  {
+    "call_number": "240927007",
+    "incident_number": "24123462",
+    "call_type": "HazMat",
+    "call_date": "2025-09-27T23:25:00.000Z",
+    "address": "Pier 39",
+    "city": "San Francisco",
+    "neighborhood_district": "Fisherman's Wharf",
+    "battalion": "B01",
+    "station_area": "35",
+    "original_priority": "3",
+    "priority": "3",
+    "number_of_alarms": "1",
+    "unit_type": "HAZMAT",
+    "call_type_group": "HazMat",
+    "supervisor_district": "3",
+    "point": {
+      "coordinates": [-122.4098, 37.8086]
+    }
+  },
+  {
+    "call_number": "240927008",
+    "incident_number": "24123463",
+    "call_type": "Working Fire",
+    "call_date": "2025-09-27T23:20:00.000Z",
+    "address": "2500 Geary Blvd",
+    "city": "San Francisco",
+    "neighborhood_district": "Richmond",
+    "battalion": "B05",
+    "station_area": "02",
+    "original_priority": "3",
+    "priority": "3",
+    "number_of_alarms": "3",
+    "unit_type": "ENGINE",
+    "call_type_group": "Fire",
+    "supervisor_district": "1",
+    "point": {
+      "coordinates": [-122.4486, 37.7816]
+    }
+  }
+]

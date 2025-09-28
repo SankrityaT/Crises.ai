@@ -9,6 +9,7 @@ import { upsertEvents } from "../services/eventRepository";
 import { publishMapEvents } from "../services/socketEmitter";
 import { updateEventsCache } from "../services/stateCache";
 
+// Kontur is a geospatial data provider - disable for now as it's generating too many generic events
 const DEFAULT_KONTUR_ENDPOINT = "https://api.kontur.io/risks/v1/events";
 
 interface KonturFeature {
@@ -142,37 +143,13 @@ async function fetchFeed(): Promise<KonturResponse> {
       $orderby: process.env.KONTUR_ORDERBY ?? undefined,
     },
   });
-
   return response.data ?? {};
 }
 
 export async function ingestKontur(): Promise<void> {
   try {
-    const payload = await fetchFeed();
-
-    if (!payload.features?.length) {
-      console.warn("[Ingestion][Kontur] Feed returned no features.");
-      return;
-    }
-
-    const normalized = payload.features
-      .map(normalizeFeature)
-      .filter((event): event is NormalizedEvent => Boolean(event));
-
-    if (!normalized.length) {
-      console.warn("[Ingestion][Kontur] No valid features after normalization.");
-      return;
-    }
-
-    const enriched = await enrichEventsWithRisk(normalized);
-
-    await upsertEvents(enriched);
-    await publishMapEvents(enriched);
-    updateEventsCache(enriched);
-
-    console.log(
-      `[Ingestion][Kontur] Processed ${enriched.length} events (persisted + emitted).`
-    );
+    console.log("[Ingestion][Kontur] Skipping Kontur ingestion (temporarily disabled)");
+    return;
   } catch (error) {
     console.error("[Ingestion][Kontur] Failed to process feed", error);
   }

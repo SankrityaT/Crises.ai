@@ -7,6 +7,8 @@ import { ingestKontur } from "../ingestion/kontur";
 import { ingestNasaFirms } from "../ingestion/nasaFirms";
 import { ingestFEMA } from "../ingestion/fema";
 import { ingestSocial } from "../ingestion/social";
+import { ingestSFFD } from "../ingestion/sffd";
+import { ingestReliefWeb } from "../ingestion/reliefweb";
 import { closeDb } from "../services/db";
 import { invalidateCustomerDensityCache } from "../services/riskScore";
 import { removeAllListeners, shutdownSocketEmitter } from "../services/socketEmitter";
@@ -117,6 +119,18 @@ async function runBootSequence(): Promise<void> {
     ingestSocial
   );
 
+  scheduleJob(
+    "SFFD",
+    process.env.SFFD_CRON_EXPRESSION ?? "*/3 * * * *",
+    ingestSFFD
+  );
+
+  scheduleJob(
+    "ReliefWeb",
+    process.env.RELIEFWEB_CRON_EXPRESSION ?? "*/10 * * * *",
+    ingestReliefWeb
+  );
+
   registerSignalHandlers();
 
   console.log("[Scheduler] Triggering initial ingestion sweep.");
@@ -126,6 +140,8 @@ async function runBootSequence(): Promise<void> {
     ingestNasaFirms(),
     ingestFEMA(),
     ingestSocial(),
+    ingestSFFD(),
+    ingestReliefWeb(),
   ]);
 
   console.log("[Scheduler] Scheduler ready. Use CTRL+C to exit.");

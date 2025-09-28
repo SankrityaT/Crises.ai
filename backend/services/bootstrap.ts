@@ -85,26 +85,30 @@ async function fetchEventsFromDatabase(limit = 100): Promise<PersistedEvent[]> {
 
 async function loadRapidMocks(): Promise<RapidCallCluster[]> {
   try {
-    const content = await readFile(resolveMockPath("fema-declarations.json"), "utf-8");
-    const json = JSON.parse(content) as { disasters?: Array<{
-      id?: string;
-      disasterNumber: number;
-      state: string;
+    const content = await readFile(resolveMockPath("rapid-calls.json"), "utf-8");
+    const json = JSON.parse(content) as { rapidCalls?: Array<{
+      id: string;
+      coordinates: { lat: number; lng: number };
       incidentType: string;
-      declarationType?: string;
-      declarationTitle?: string;
-      designatedArea?: string;
-      declarationDate?: string;
-      incidentBeginDate?: string;
-      lastRefresh?: string;
+      callCount: number;
+      severity: string;
+      lastUpdated: string;
     }> };
 
-    const disasters = json.disasters ?? [];
-    if (!disasters.length) {
+    const rapidCalls = json.rapidCalls ?? [];
+    if (!rapidCalls.length) {
       return [];
     }
 
-    return buildRapidClusters(disasters);
+    return rapidCalls.map(call => ({
+      id: call.id,
+      coordinates: call.coordinates,
+      incidentType: call.incidentType,
+      callCount: call.callCount,
+      volume: call.callCount, // For backward compatibility
+      severity: call.severity as any,
+      lastUpdated: call.lastUpdated,
+    }));
   } catch (error) {
     console.warn("[Bootstrap] Failed to load rapid call mocks, returning empty array", error);
     return [];
