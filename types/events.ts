@@ -2,9 +2,9 @@ export type EventSource =
   | "usgs"
   | "kontur"
   | "nasa"
-  | "rapidsos"
   | "fema"
   | "social"
+  | "sffd"
   | "mock";
 
 export interface NormalizedEvent {
@@ -20,7 +20,7 @@ export interface NormalizedEvent {
   magnitude?: number | null;
   severity?: "low" | "moderate" | "high" | "critical";
   occurredAt: string;
-  raw: unknown;
+  raw?: unknown;
 }
 
 export interface PersistedEvent extends NormalizedEvent {

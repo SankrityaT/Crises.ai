@@ -29,7 +29,9 @@ export interface RapidCallCluster {
   id: string;
   coordinates: Coordinate;
   incidentType: string;
-  volume: number;
+  volume?: number;
+  callCount?: number;
+  severity?: EventSeverity;
   lastUpdated: string;
 }
 

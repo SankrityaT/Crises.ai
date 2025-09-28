@@ -5,7 +5,7 @@
       "platform": "twitter",
       "content": "Hearing sirens downtown after the tremor",
       "sentiment_score": -0.4,
-      "mention_count": 120,
+      "mention_count": 23,
       "latitude": 41.885,
       "longitude": -87.624,
       "captured_at": "2025-09-28T02:10:00.000Z"
@@ -15,10 +15,60 @@
       "platform": "facebook",
       "content": "Community shelter opened in Springfield",
       "sentiment_score": 0.2,
-      "mention_count": 45,
+      "mention_count": 18,
       "latitude": 39.781,
       "longitude": -89.65,
       "captured_at": "2025-09-28T02:12:00.000Z"
+    },
+    {
+      "id": "social_mock_3",
+      "platform": "twitter",
+      "content": "Fire trucks heading to downtown area",
+      "sentiment_score": -0.6,
+      "mention_count": 31,
+      "latitude": 37.7749,
+      "longitude": -122.4194,
+      "captured_at": "2025-09-28T02:15:00.000Z"
+    },
+    {
+      "id": "social_mock_4",
+      "platform": "instagram",
+      "content": "Emergency response teams on scene",
+      "sentiment_score": -0.3,
+      "mention_count": 12,
+      "latitude": 34.0522,
+      "longitude": -118.2437,
+      "captured_at": "2025-09-28T02:18:00.000Z"
+    },
+    {
+      "id": "social_mock_5",
+      "platform": "twitter",
+      "content": "Road closures due to flooding",
+      "sentiment_score": -0.5,
+      "mention_count": 27,
+      "latitude": 29.7604,
+      "longitude": -95.3698,
+      "captured_at": "2025-09-28T02:20:00.000Z"
+    },
+    {
+      "id": "social_mock_6",
+      "platform": "facebook",
+      "content": "Relief supplies being distributed",
+      "sentiment_score": 0.4,
+      "mention_count": 19,
+      "latitude": 40.7128,
+      "longitude": -74.0060,
+      "captured_at": "2025-09-28T02:22:00.000Z"
+    },
+    {
+      "id": "social_mock_7",
+      "platform": "twitter",
+      "content": "Power outages reported in several areas",
+      "sentiment_score": -0.4,
+      "mention_count": 35,
+      "latitude": 47.6062,
+      "longitude": -122.3321,
+      "captured_at": "2025-09-28T02:25:00.000Z"
     }
   ]
 }
