@@ -1,0 +1,24 @@
+{
+  "mentions": [
+    {
+      "id": "social_mock_1",
+      "platform": "twitter",
+      "content": "Hearing sirens downtown after the tremor",
+      "sentiment_score": -0.4,
+      "mention_count": 120,
+      "latitude": 41.885,
+      "longitude": -87.624,
+      "captured_at": "2025-09-28T02:10:00.000Z"
+    },
+    {
+      "id": "social_mock_2",
+      "platform": "facebook",
+      "content": "Community shelter opened in Springfield",
+      "sentiment_score": 0.2,
+      "mention_count": 45,
+      "latitude": 39.781,
+      "longitude": -89.65,
+      "captured_at": "2025-09-28T02:12:00.000Z"
+    }
+  ]
+}

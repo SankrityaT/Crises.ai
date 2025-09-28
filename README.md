@@ -18,7 +18,7 @@ src/
   store/
   types/
 backend/
-  ingestion/           # Pollers for USGS, Kontur, NASA, RapidSOS, Social
+  ingestion/           # Pollers for USGS, Kontur, NASA, FEMA, Social
   scheduler/           # Cron runner entrypoint (Node + TS)
   services/
   sockets/
@@ -43,10 +43,13 @@ DATABASE_URL=
 SUPABASE_PROJECT_URL=
 SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
-RAPIDSOS_API_KEY=
 NERIS_API_KEY=
 NASA_FIRMS_API_KEY=
 KONTUR_API_KEY=
+KONTUR_FEED_ALIAS=
+FEMA_DECLARATIONS_URL=
+FEMA_TOP=
+FEMA_TIMEOUT_MS=
 TWITTER_BEARER_TOKEN=
 OPENAI_API_KEY=
 GEMINI_API_KEY=
