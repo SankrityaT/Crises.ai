@@ -1,0 +1,37 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "generated": 1700000000000,
+    "title": "USGS All Earthquakes, Past Hour"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "usgs_mock_1",
+      "properties": {
+        "mag": 4.1,
+        "place": "15 km SW of Napa, California",
+        "time": 1699999500000,
+        "title": "M 4.1 - 15 km SW of Napa, California"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.457, 38.235, 9.4]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "usgs_mock_2",
+      "properties": {
+        "mag": 2.5,
+        "place": "5 km ENE of Springfield, Illinois",
+        "time": 1699999800000,
+        "title": "M 2.5 - 5 km ENE of Springfield, Illinois"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.6, 39.82, 5.0]
+      }
+    }
+  ]
+}

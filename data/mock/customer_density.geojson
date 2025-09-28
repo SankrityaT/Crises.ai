@@ -1,0 +1,68 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "chi_downtown",
+      "properties": {
+        "name": "Chicago Loop",
+        "densityScore": 0.92,
+        "population": 85000
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-87.6348, 41.8861],
+            [-87.6180, 41.8861],
+            [-87.6180, 41.8750],
+            [-87.6348, 41.8750],
+            [-87.6348, 41.8861]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "naperville",
+      "properties": {
+        "name": "Naperville",
+        "densityScore": 0.56,
+        "population": 148000
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-88.2202, 41.8126],
+            [-88.0800, 41.8126],
+            [-88.0800, 41.6897],
+            [-88.2202, 41.6897],
+            [-88.2202, 41.8126]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "springfield",
+      "properties": {
+        "name": "Springfield",
+        "densityScore": 0.34,
+        "population": 115000
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-89.7440, 39.8500],
+            [-89.5884, 39.8500],
+            [-89.5884, 39.7000],
+            [-89.7440, 39.7000],
+            [-89.7440, 39.8500]
+          ]
+        ]
+      }
+    }
+  ]
+}

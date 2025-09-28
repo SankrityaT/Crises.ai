@@ -9,7 +9,8 @@
   },
   "include": [
     "./**/*.ts",
-    "../src/types/**/*.ts"
+    "../src/types/**/*.ts",
+    "../types/**/*.ts"
   ],
   "exclude": ["../node_modules"]
 }

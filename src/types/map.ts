@@ -8,7 +8,7 @@ export interface Coordinate {
 export interface EventFeature {
   id: string;
   title: string;
-  source: "usgs" | "kontur" | "nasa" | "rapidsos" | "social" | "mock";
+  source: "usgs" | "kontur" | "nasa" | "rapidsos" | "fema" | "social" | "mock";
   type: string;
   severity: EventSeverity;
   magnitude?: number;
@@ -41,11 +41,20 @@ export interface SocialHotspot {
   lastUpdated: string;
 }
 
+export interface CustomerDensityRegion {
+  id: string;
+  regionName: string;
+  densityScore: number;
+  population?: number;
+  geometry: unknown;
+}
+
 export interface MapBootstrapPayload {
   events: EventFeature[];
   rapidCalls: RapidCallCluster[];
   socialHotspots: SocialHotspot[];
   predictions: PredictionSummary[];
+  customerDensity: CustomerDensityRegion[];
 }
 
 export interface MapFilters {
