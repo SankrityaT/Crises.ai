@@ -10,11 +10,16 @@ export function CustomerDensityLayer() {
   const { customerDensity, filters } = useMapStore();
 
   useEffect(() => {
-    if (!map || !filters.showCustomerDensity) return;
+    if (!map || !filters.showCustomerDensity || !customerDensity?.length) return;
 
     const layerGroup = L.layerGroup().addTo(map);
 
     customerDensity.forEach((region) => {
+      // Skip if region doesn't have coordinates
+      if (!region.coordinates || !Array.isArray(region.coordinates)) {
+        return;
+      }
+
       const color = region.riskProfile === 'high' ? '#DC2626' :
                    region.riskProfile === 'medium' ? '#D97706' : '#65A30D';
       

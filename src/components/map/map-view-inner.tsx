@@ -64,7 +64,7 @@ function MapController() {
   return null;
 }
 
-export default function MapViewInner({ className }: MapViewInnerProps) {
+function MapViewInner({ className }: MapViewInnerProps) {
   const mapRef = useRef<LeafletMap | null>(null);
   const { filters } = useMapStore();
 
@@ -95,3 +95,5 @@ export default function MapViewInner({ className }: MapViewInnerProps) {
     </div>
   );
 }
+
+export default MapViewInner;

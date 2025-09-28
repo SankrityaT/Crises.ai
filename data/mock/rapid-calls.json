@@ -1,0 +1,84 @@
+{
+  "rapidCalls": [
+    {
+      "id": "rapid_cluster_1",
+      "coordinates": { "lat": 34.0522, "lng": -118.2437 },
+      "incidentType": "Structure Fire",
+      "callCount": 47,
+      "severity": "high",
+      "lastUpdated": "2025-09-27T23:45:00.000Z"
+    },
+    {
+      "id": "rapid_cluster_2", 
+      "coordinates": { "lat": 40.7128, "lng": -74.0060 },
+      "incidentType": "Medical Emergency",
+      "callCount": 23,
+      "severity": "moderate",
+      "lastUpdated": "2025-09-27T23:42:00.000Z"
+    },
+    {
+      "id": "rapid_cluster_3",
+      "coordinates": { "lat": 41.8781, "lng": -87.6298 },
+      "incidentType": "Traffic Accident",
+      "callCount": 31,
+      "severity": "moderate", 
+      "lastUpdated": "2025-09-27T23:38:00.000Z"
+    },
+    {
+      "id": "rapid_cluster_4",
+      "coordinates": { "lat": 29.7604, "lng": -95.3698 },
+      "incidentType": "Flooding",
+      "callCount": 89,
+      "severity": "critical",
+      "lastUpdated": "2025-09-27T23:50:00.000Z"
+    },
+    {
+      "id": "rapid_cluster_5",
+      "coordinates": { "lat": 33.4484, "lng": -112.0740 },
+      "incidentType": "Wildfire",
+      "callCount": 156,
+      "severity": "critical",
+      "lastUpdated": "2025-09-27T23:48:00.000Z"
+    },
+    {
+      "id": "rapid_cluster_6",
+      "coordinates": { "lat": 39.7392, "lng": -104.9903 },
+      "incidentType": "Gas Leak",
+      "callCount": 12,
+      "severity": "moderate",
+      "lastUpdated": "2025-09-27T23:35:00.000Z"
+    },
+    {
+      "id": "rapid_cluster_7",
+      "coordinates": { "lat": 47.6062, "lng": -122.3321 },
+      "incidentType": "Building Collapse",
+      "callCount": 67,
+      "severity": "high",
+      "lastUpdated": "2025-09-27T23:44:00.000Z"
+    },
+    {
+      "id": "rapid_cluster_8",
+      "coordinates": { "lat": 25.7617, "lng": -80.1918 },
+      "incidentType": "Hurricane Response",
+      "callCount": 203,
+      "severity": "critical",
+      "lastUpdated": "2025-09-27T23:52:00.000Z"
+    },
+    {
+      "id": "rapid_cluster_9",
+      "coordinates": { "lat": 32.7767, "lng": -96.7970 },
+      "incidentType": "Tornado",
+      "callCount": 78,
+      "severity": "high",
+      "lastUpdated": "2025-09-27T23:41:00.000Z"
+    },
+    {
+      "id": "rapid_cluster_10",
+      "coordinates": { "lat": 37.7749, "lng": -122.4194 },
+      "incidentType": "Earthquake",
+      "callCount": 134,
+      "severity": "critical",
+      "lastUpdated": "2025-09-27T23:47:00.000Z"
+    }
+  ]
+}

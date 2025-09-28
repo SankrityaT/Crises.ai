@@ -67,9 +67,13 @@ export interface MapFilters {
 
 export interface CustomerDensityRegion {
   id: string;
-  coordinates: Coordinate[];
-  customerCount: number;
-  riskProfile: "low" | "medium" | "high";
+  regionName: string;
+  densityScore: number;
+  population?: number;
+  geometry: unknown;
+  coordinates?: Coordinate[];
+  customerCount?: number;
+  riskProfile?: "low" | "medium" | "high";
 }
 
 export interface MapState {

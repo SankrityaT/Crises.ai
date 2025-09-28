@@ -49,49 +49,20 @@ body {
   box-shadow: 0 3px 14px rgb(0 0 0 / 0.4);
 }
 
-/* Crisis-specific animations */
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.33);
-    opacity: 1;
-  }
-  80%, 100% {
-    transform: scale(2.4);
-    opacity: 0;
-  }
+/* Crisis event marker styles */
+.crisis-event-marker {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-@keyframes pulse-dot {
-  0% {
-    transform: scale(0.8);
-  }
-  50% {
-    transform: scale(1.0);
-  }
-  100% {
-    transform: scale(0.8);
-  }
+.crisis-event-marker div {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
-.crisis-pulse {
-  position: relative;
-}
-
-.crisis-pulse::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
-  border: 2px solid currentColor;
-}
-
-.crisis-pulse-dot {
-  animation: pulse-dot 2s infinite;
+.crisis-event-marker:hover div {
+  transform: scale(1.1);
 }
 
 /* Smooth transitions for all interactive elements */
