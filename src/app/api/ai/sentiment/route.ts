@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
+import { AI_RATE_LIMITS } from "@/config/ai-rate-limits";
 
 import type {
   SentimentAnalysisResponse,
   SentimentInsight,
   SocialMentionPayload,
 } from "@/types/ai";
+
+// CRITICAL: Server-side cache to prevent redundant AI calls
+const responseCache = new Map<string, { response: SentimentAnalysisResponse; timestamp: number }>();
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 const GEMINI_API_BASE =
@@ -139,9 +143,36 @@ export async function POST(request: Request) {
     );
   }
 
+  // Generate cache key from mention IDs
+  const cacheKey = body.mentions
+    .map(m => `${m.postId}-${m.platform}`)
+    .sort()
+    .join('|');
+  
+  // Check cache first
+  const cached = responseCache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < AI_RATE_LIMITS.CACHE_TTL) {
+    console.log('[API][AI] Returning cached sentiment response');
+    return NextResponse.json(cached.response, { status: 200 });
+  }
+
   try {
     const prompt = buildPrompt(body.mentions);
     const summary = await callGemini(prompt);
+    
+    // Cache the response
+    responseCache.set(cacheKey, { response: summary, timestamp: Date.now() });
+    
+    // Clean old cache entries
+    if (responseCache.size > AI_RATE_LIMITS.MAX_CACHE_SIZE) {
+      const now = Date.now();
+      for (const [key, value] of responseCache.entries()) {
+        if (now - value.timestamp > AI_RATE_LIMITS.CACHE_TTL) {
+          responseCache.delete(key);
+        }
+      }
+    }
+    
     return NextResponse.json(summary, { status: 200 });
   } catch (error) {
     console.error("[API][AI] Gemini sentiment failure", error);

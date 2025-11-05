@@ -1,33 +1,65 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --crisis-red: #DC2626;
-  --crisis-red-muted: #EF4444;
-  --crisis-orange: #EA580C;
-  --crisis-orange-muted: #F97316;
-  --crisis-amber: #D97706;
-  --crisis-lime: #65A30D;
+/* Light theme - Professional & Clean */
+:root.light {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --panel-bg: #ffffff;
+  --panel-border: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --hover-bg: #f1f5f9;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #8b5cf6;
+  --crisis-red: #dc2626;
+  --crisis-red-muted: #ef4444;
+  --crisis-orange: #ea580c;
+  --crisis-orange-muted: #f97316;
+  --crisis-amber: #d97706;
+  --crisis-lime: #65a30d;
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-/* Theme variables */
+/* Dark theme - Deep & Sophisticated */
+:root.dark {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --panel-bg: #1e293b;
+  --panel-border: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --hover-bg: #334155;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #8b5cf6;
+  --crisis-red: #ef4444;
+  --crisis-red-muted: #f87171;
+  --crisis-orange: #f97316;
+  --crisis-orange-muted: #fb923c;
+  --crisis-amber: #f59e0b;
+  --crisis-lime: #84cc16;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.6), 0 1px 2px -1px rgb(0 0 0 / 0.5);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.6), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.7), 0 8px 10px -6px rgb(0 0 0 / 0.6);
+}
+
+/* Default to dark theme */
 :root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-jakarta);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

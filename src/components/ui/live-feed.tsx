@@ -85,55 +85,59 @@ export function LiveFeed() {
   }, [events, rapidCalls, socialHotspots, filters]);
 
   return (
-    <Card className="bg-gray-700/80 backdrop-blur-sm border-gray-500 text-gray-100 flex flex-col">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-3 text-xl text-gray-100">
-          <Activity className="h-6 w-6 text-gray-100" />
-          Live Feed
+    <Card className="flex flex-col h-full">
+      <CardHeader className="pb-4 border-b border-[var(--card-border)]">
+        <CardTitle className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-[var(--accent-primary)]/10">
+            <Activity className="h-5 w-5 text-[var(--accent-primary)]" />
+          </div>
+          <span>Live Activity Feed</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-0 flex-1">
+      <CardContent className="p-0 flex-1 overflow-hidden">
         <div className="overflow-y-auto h-full">
           {feedItems.length === 0 ? (
-            <div className="p-6 text-center text-gray-400">
-              <Activity className="h-8 w-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No active events</p>
-              <p className="text-xs">Enable layers to see live updates</p>
+            <div className="p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--hover-bg)] flex items-center justify-center">
+                <Activity className="h-8 w-8 text-[var(--text-muted)]" />
+              </div>
+              <p className="text-sm font-medium text-[var(--text-primary)] mb-1">No active events</p>
+              <p className="text-xs text-[var(--text-muted)]">Enable data layers to see live updates</p>
             </div>
           ) : (
-            <div className="space-y-1">
+            <div>
               {feedItems.map((item, index) => {
                 const Icon = item.icon;
                 return (
                   <div
                     key={item.id}
-                    className={`p-3 border-l-4 hover:bg-gray-600/90 transition-colors ${
-                      index !== feedItems.length - 1 ? 'border-b border-gray-700' : ''
+                    className={`p-4 border-l-4 hover:bg-[var(--hover-bg)] transition-all duration-200 cursor-pointer ${
+                      index !== feedItems.length - 1 ? 'border-b border-[var(--card-border)]' : ''
                     }`}
                     style={{ borderLeftColor: item.color }}
                   >
                     <div className="flex items-start gap-3">
                       <div 
-                        className="p-1.5 rounded-full flex-shrink-0 mt-0.5"
-                        style={{ backgroundColor: `${item.color}20`, color: item.color }}
+                        className="p-2 rounded-lg flex-shrink-0"
+                        style={{ backgroundColor: `${item.color}15`, color: item.color }}
                       >
-                        <Icon className="h-3 w-3" />
+                        <Icon className="h-4 w-4" />
                       </div>
                       
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-2">
-                          <p className="text-sm font-medium text-gray-100 truncate">
+                        <div className="flex items-start justify-between gap-2 mb-2">
+                          <p className="text-sm font-semibold text-[var(--text-primary)] line-clamp-2">
                             {item.title}
                           </p>
-                          <span className="text-xs text-gray-400 whitespace-nowrap">
+                          <span className="text-xs text-[var(--text-muted)] whitespace-nowrap font-medium">
                             {getTimeAgo(item.time)}
                           </span>
                         </div>
                         
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="flex items-center gap-2">
                           <Badge 
                             variant="outline" 
-                            className="text-xs px-1.5 py-0.5 h-auto"
+                            className="text-xs px-2 py-0.5 h-auto border-[var(--card-border)] text-[var(--text-secondary)]"
                           >
                             {item.source}
                           </Badge>
@@ -146,7 +150,7 @@ export function LiveFeed() {
                                 item.severity === 'moderate' ? 'moderate' :
                                 item.severity === 'low' ? 'low' : 'secondary'
                               }
-                              className="text-xs px-1.5 py-0.5 h-auto"
+                              className="text-xs px-2 py-0.5 h-auto font-semibold"
                             >
                               {item.severity}
                             </Badge>

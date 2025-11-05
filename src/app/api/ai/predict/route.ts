@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
+import { AI_RATE_LIMITS } from "@/config/ai-rate-limits";
 
 import type {
   ClaimForecastInsight,
   ClaimForecastResponse,
   DisasterEventContext,
 } from "@/types/ai";
+
+// CRITICAL: Server-side cache to prevent redundant AI calls
+const responseCache = new Map<string, { response: ClaimForecastResponse; timestamp: number }>();
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 const GEMINI_API_BASE =
@@ -157,6 +161,19 @@ export async function POST(request: Request) {
     );
   }
 
+  // Generate cache key from event IDs and severities
+  const cacheKey = body.events
+    .map(e => `${e.eventId}-${e.severity}-${e.magnitude}`)
+    .sort()
+    .join('|');
+  
+  // Check cache first
+  const cached = responseCache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < AI_RATE_LIMITS.CACHE_TTL) {
+    console.log('[API][AI] Returning cached prediction response');
+    return NextResponse.json(cached.response, { status: 200 });
+  }
+
   try {
     const prompt = buildPrompt(body.events);
     const apiKeyPresent = Boolean(process.env.GEMINI_API_KEY);
@@ -168,10 +185,22 @@ export async function POST(request: Request) {
 
     try {
       const summary = await callGemini(prompt);
+      // Cache the response
+      responseCache.set(cacheKey, { response: summary, timestamp: Date.now() });
+      // Clean old cache entries
+      if (responseCache.size > AI_RATE_LIMITS.MAX_CACHE_SIZE) {
+        const now = Date.now();
+        for (const [key, value] of responseCache.entries()) {
+          if (now - value.timestamp > AI_RATE_LIMITS.CACHE_TTL) {
+            responseCache.delete(key);
+          }
+        }
+      }
       return NextResponse.json(summary, { status: 200 });
     } catch (error) {
       console.error("[API][AI] Gemini call failed, using fallback", error);
       const fallback = buildFallbackResponse(body.events);
+      responseCache.set(cacheKey, { response: fallback, timestamp: Date.now() });
       return NextResponse.json(fallback, { status: 200 });
     }
   } catch (error) {

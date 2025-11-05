@@ -150,10 +150,19 @@ async function loadRegionsFromDatabase(): Promise<CustomerDensityRegion[]> {
     return [];
   }
 
-  const db = getDb();
-  const rows = await db.select().from(schema.customerDensity);
-  const regions = rows.map(normalizeRegion);
-  return regions;
+  try {
+    const db = getDb();
+    const rows = await db.select().from(schema.customerDensity);
+    const regions = rows.map(normalizeRegion);
+    console.log(`[RiskScore] Loaded ${regions.length} customer density regions from database`);
+    return regions;
+  } catch (error) {
+    console.warn(
+      "[RiskScore] Failed to load customer density from database, will use mock data:",
+      error instanceof Error ? error.message : error
+    );
+    return [];
+  }
 }
 
 async function loadRegionsFromMock(): Promise<CustomerDensityRegion[]> {
