@@ -41,7 +41,7 @@ export function CustomerDensityLayer() {
             <h3 class="font-semibold text-sm">Customer Density Region</h3>
           </div>
           <div class="space-y-1 text-xs text-gray-600">
-            <p><strong>Customers:</strong> ${region.customerCount.toLocaleString()}</p>
+            <p><strong>Customers:</strong> ${region.customerCount?.toLocaleString() ?? 'N/A'}</p>
             <p><strong>Risk Profile:</strong> ${region.riskProfile}</p>
           </div>
         </div>
